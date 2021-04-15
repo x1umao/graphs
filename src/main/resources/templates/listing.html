@@ -38,25 +38,25 @@
             </div>
             <h6 class="py-3" th:text = "|Found ${totalNodes} Results|">Found 123 Results</h6>
 
-            <div th:if="${category} eq 0" th:each="p:${persons}">
+            <div th:if="${category} eq 0" th:each="p:${persons}" th:id="|card${category}|">
                 <a class="card-hover" th:href = "|person-detail?name=${p.name}|">
                     <div class="card-m card-person">
                         <div class="row">
                             <div class="col-2 col-lg-1">
                                 <span class="fa fa-user-circle card-icon"></span>
                             </div>
-                            <div class="col-10 col-lg-11">
-                                <h4 class="pb-3" th:text="${p.name}">Edson C. Tandoc Jr.</h4>
-                                <p th:text="${p.gender}">Male</p>
+                            <div class="col-10 col-lg-11" id="card0">
+                                <h4 class="pb-3" th:text="${p.name}" id="name">Edson C. Tandoc Jr.</h4>
+                                <p th:text="${p.gender}" id="gender">Male</p>
                                 <p class="ml-5"><b>Articles</b></p>
-                                <p class="ml-3" th:text="${p.counter}">121</p>
+                                <p class="ml-3" th:text="${p.counter}" id="counter">121</p>
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
 
-            <div th:if="${category} eq 1" th:each="a:${articles}">
+            <div th:if="${category} eq 1" th:each="a:${articles}" th:id="|card${category}|">
                 <a class="card-hover" th:href="|article-detail?title=${a.title}|">
                     <div class="card-m card-article">
                         <div class="row">
@@ -64,19 +64,19 @@
                                 <span class="far fa-file-alt card-icon"></span>
                             </div>
                             <div class="col-10 col-lg-11">
-                                <h4 class="pb-3" th:text="${a.title}">Defining “Fake News” A typology of scholarly definitions</h4>
-                                <p th:text="${a.firstAuthor}">EC Tandoc Jr, ZW Lim, R Ling</p>
+                                <h4 class="pb-3" th:text="${a.title}" id="title">Defining “Fake News” A typology of scholarly definitions</h4>
+                                <p th:text="${a.firstAuthor}" id="firstAuthor">EC Tandoc Jr, ZW Lim, R Ling</p>
                                 <p class="ml-5"><b>Published In</b></p>
-                                <p class="ml-3" th:text="${a.year!=0?a.year:'N.A'}">2018</p>
+                                <p class="ml-3" th:text="${a.year!=0?a.year:'N.A'}" id="year">2018</p>
                                 <p class="ml-5"><b>Journal</b></p>
-                                <p class="ml-3" th:text="${a.journalTitle?:'N.A'}">Digital Journalism</p>
+                                <p class="ml-3" th:text="${a.journalTitle?:'N.A'}" id="journalTitle">Digital Journalism</p>
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
 
-            <div th:if="${category} eq 2">
+            <div th:if="${category} eq 2" th:id="|card${category}|">
                 <div class="card-m card-journal">
                     <div class="row">
                         <div class="col-2 col-lg-1">
@@ -150,9 +150,9 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
     let pageNumber = 0;
-    let category = /*[[${category}]]*/0;//person:0, article:1, journal:2, search:3
+    const category = /*[[${category}]]*/ 20;//person:0, article:1, journal:2, search:3
     $(function () {
         $('.button-checkbox').each(function () {
 
@@ -208,8 +208,30 @@
             init();
         });
         $('#loadMore').click( function () {
+            pageNumber++;
+            let loadMoreBtn = $('#loadMore');
             $.get(`loadmore?category=${category}&page=${pageNumber}`,d=> {
-                console.log(d);
+                // $(`#card${category}>input:first`);
+                if(category===0){
+                    d.personListVOS.forEach(data=>{
+                        let card = $('#card0').clone();
+                        card.find('h4#name').html(data.name);
+                        card.find('p#gender').html(data.gender);
+                        card.find('p#counter').html(data.counter);
+                        card.find('a').attr('href',`person-detail?name=${data.name}`);
+                        loadMoreBtn.before(card);
+                    });
+                }else if(category===1){
+                    d.articleListVOS.forEach(data=>{
+                        let card = $('card1').clone();
+                        card.find('h4#title').html(data.title);
+                        card.find('p#year').html(data.year);
+                        card.find('p#journalTitle').html(data.journalTitle);
+                        card.find('p#firstAuthor').html(data.firstAuthor);
+                        card.find('a').attr('href',`article-detail?title=${data.title}`);
+                        loadMoreBtn.before(card);
+                    })
+                }
             })
         });
     });
