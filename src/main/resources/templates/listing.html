@@ -223,7 +223,7 @@
                     });
                 }else if(category===1){
                     d.articleListVOS.forEach(data=>{
-                        let card = $('card1').clone();
+                        let card = $('#card1').clone();
                         card.find('h4#title').html(data.title);
                         card.find('p#year').html(data.year);
                         card.find('p#journalTitle').html(data.journalTitle);
