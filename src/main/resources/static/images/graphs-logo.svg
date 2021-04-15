@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="graphs-logo.svg"
+   inkscape:version="1.0 (4035a4f, 2020-05-01)"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 210 40"
+   height="40mm"
+   width="210mm">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     inkscape:window-maximized="0"
+     inkscape:window-y="23"
+     inkscape:window-x="0"
+     inkscape:window-height="798"
+     inkscape:window-width="1252"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="text1404"
+     inkscape:document-units="mm"
+     inkscape:cy="560"
+     inkscape:cx="400"
+     inkscape:zoom="0.35"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <g
+       aria-label="GRAPHS"
+       id="text1404"
+       style="font-style:normal;font-weight:normal;font-size:50.8px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583">
+      <path
+         id="path850"
+         style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-size:50.79999999999999716px;font-family:Poppins;-inkscape-font-specification:'Poppins Ultra-Bold';stroke-width:0.264583;fill:#2c2c2c;fill-opacity:1"
+         d="m 209.21417,27.455586 c 0,-11.4808 -17.2212,-9.7536 -17.2212,-15.0876 0,-1.7272 1.1684,-2.5907995 2.6416,-2.5399995 1.8288,0 3.2004,1.0159995 3.302,3.2511995 h 10.8204 c -0.3556,-7.1119995 -5.7404,-11.1251994 -13.97,-11.1251994 -7.5692,0 -13.4112,3.7591999 -13.4112,10.7695994 -0.1524,12.446 17.2212,9.7536 17.272,15.494 0,1.6764 -1.3716,2.5908 -3.1496,2.5908 -1.8288,0 -3.4036,-0.9144 -3.6068,-3.6068 h -10.6172 c 0.4064,7.6708 6.604,11.4808 14.5796,11.4808 8.4836,0 13.3604,-4.9276 13.3604,-11.2268 z m -42.47832,10.8712 h 9.9568 V 2.5127866 h -9.9568 V 15.974786 h -12.1412 V 2.5127866 h -9.9568 V 38.326786 h 9.9568 v -14.3764 h 12.1412 z m -44.48652,-20.0152 v -7.7724 h 3.9624 c 2.9972,0 4.2164,1.524 4.2164,3.9116 0,2.3368 -1.2192,3.8608 -4.2164,3.8608 z m 18.3388,-3.8608 c 0,-6.9087995 -4.5212,-11.9379994 -13.4112,-11.9379994 h -14.8844 V 38.326786 h 9.9568 v -12.0904 h 4.9276 c 9.0932,0 13.4112,-5.5372 13.4112,-11.7856 z m -42.106055,23.876 H 108.99768 L 95.992875,2.5127866 h -11.4808 L 71.456476,38.326786 h 10.464799 l 1.9304,-5.842 h 12.7 z m -4.4196,-13.462 h -7.6708 l 3.81,-11.5824 z m -34.755138,-10.3124 c 0,2.4384 -1.3716,3.7592 -4.064,3.7592 h -4.9276 v -7.4676 h 4.9276 c 2.6924,0 4.064,1.4732 4.064,3.7084 z M 40.358937,2.5127866 V 38.326786 h 9.9568 v -13.208 h 1.0668 l 7.112,13.208 h 11.1252 l -8.0772,-13.97 c 5.334,-1.6256 7.874,-5.6896 7.874,-10.3632 0,-6.4007995 -4.4704,-11.4807994 -13.3604,-11.4807994 z m -21.580476,-0.3556 c -10.9727996,0 -18.13559946,7.5183999 -18.13559946,18.1863994 0,10.7188 7.21359986,18.2372 18.18639946,18.2372 9.3472,0 14.8844,-5.7912 17.018,-11.0236 v -9.652 h -18.5928 v 7.1628 h 10.0076 c -1.4732,3.0988 -4.0132,4.7244 -7.4676,4.7244 -5.8928,0 -9.0424,-3.302 -9.0424,-9.4488 0,-5.4864 3.048,-8.9916 8.0772,-8.9916 2.7432,0 4.7752,1.0668 5.8928,2.9464 h 10.7188 c -1.4224,-7.4675995 -7.62,-12.1411994 -16.6624,-12.1411994 z" />
+    </g>
+  </g>
+</svg>

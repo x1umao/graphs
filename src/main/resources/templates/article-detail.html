@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="images/favicon-small.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="images/favicon-large.png" sizes="32x32">
+    <title>Graphs DB</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+
+<body class="article-bg">
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-8">
+            <div class="row pt-0 pb-2 pt-md-4">
+                <div class="col-12 col-md-4 col-lg-3 my-auto">
+                    <div class="logo py-5 py-md-0 ">
+                        <a href="index.html">
+                            <img src="images/graphs-logo.svg" class="mx-auto mx-md-0">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-8 col-lg-9">
+                    <div class="form-group form-search mb-0 mr-5 pr-3">
+                        <span class="fa fa-search form-icon"></span>
+                        <input type="text" class="form-control" placeholder="Search person, article, journal...">
+                    </div>
+                    <button class="btn btn-dark btn-sqr search-filter"><a href="#" data-toggle="modal"
+                                                                          data-target="#FilterModal"><i
+                            class="fa fa-sliders-h btn-icon"></i></a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pb-5 pb-md-4">
+        <div class="col-12 col-lg-8">
+            <div class="card-m card-article">
+                <div class="row">
+                    <div class="col-2 col-lg-1">
+                        <span class="far fa-file-alt card-icon"></span>
+                    </div>
+                    <div class="col-10 col-lg-11" th:object="${aDetailVO.article}">
+                        <h4 class="pb-3" th:text="*{title}">Defining “Fake News” A typology of
+                            scholarly definitions</h4>
+                        <p th:text="*{authors[0].person.name}">EC Tandoc Jr, ZW Lim, R Ling</p>
+                        <p class="ml-5"><b>Published In</b></p>
+                        <p class="ml-3" th:text="*{year}">2018</p>
+                        <p class="ml-5"><b>Journal</b></p>
+                        <p class="ml-3" th:text="*{journal.title}">Digital Journalism</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-m card-graph">
+                <button class="btn btn-dark btn-sqr graph-filter"><a href="#" data-toggle="modal"
+                                                                     data-target="#graphModal"><i
+                        class="fa fa-sliders-h btn-icon"></i></a></button>
+                <div id="graphContainer" style="width: 100%;height:600px"></div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="row">
+                <div class="col-12 col-md-6 col-lg-12">
+                    <div class="card-m">
+                        <h5>Related Journal</h5>
+                        <!--                        ToDo-->
+                        <a href="journal-detail.html" class="card-hover">
+                            <div class="card-s card-journal card-s-journal">
+                                <span class="fa fa-book card-icon"></span>
+                                <div class="card-s-info ml-5">
+                                    <h6 class="mb-1" th:text="${aDetailVO.article.journal.title}">Digital
+                                        Journalism</h6>
+                                    <p><b>Articles</b></p>
+                                    <p class="ml-2" th:text="${aDetailVO.jCounter}">345</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-12">
+                    <div class="card-m">
+                        <h5>Related Persons</h5>
+                        <div th:each="rp:${aDetailVO.relatedPersons}">
+                            <a class="card-hover" th:href="|person-detail?name=${rp.name}|">
+                                <div class="card-s card-person card-s-person">
+                                    <span class="fa fa-user-circle card-icon"></span>
+                                    <div class="card-s-info ml-5">
+                                        <h6 class="mb-1" th:text="${rp.name}">Patrick Ferrucci</h6>
+                                        <p th:text="${rp.gender}">Male</p>
+                                        <p class="ml-4"><b>Articles</b></p>
+                                        <p class="ml-2" th:text="${rp.counter}">121</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Filter Modal-->
+<div class="modal fade" id="FilterModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Set Filters</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="pb-3">Publication Year</h6>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control mb-3" id="pubFilterFrom" name="pubFilterFrom"
+                                   placeholder="from">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control mb-3" id="pubFilterTo" name="pubFilterTo"
+                                   placeholder="to">
+                        </div>
+                        <div class="col-12">
+                            <h6 class="pb-3">Category</h6>
+                            <div class="btn-group" data-toggle="buttons">
+                                    			<span class="button-checkbox">
+											        <button type="button" class="btn" data-color="dark">Person</button>
+											        <input type="checkbox" style="display: none;"/>
+											    </span>
+                                <span class="button-checkbox">
+											        <button type="button" class="btn ml-2"
+                                                            data-color="dark">Article</button>
+											        <input type="checkbox" style="display: none;"/>
+											    </span>
+                                <span class="button-checkbox">
+											        <button type="button" class="btn ml-2"
+                                                            data-color="dark">Journal</button>
+											        <input type="checkbox" style="display: none;"/>
+											    </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-dark" type="button" data-dismiss="modal">Apply Filter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Graph Filter Modal-->
+<div class="modal fade" id="graphModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Set Graph Filters</h6>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-12">
+                            <h6 class="pb-3">Publication Year</h6>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control mb-3" id="pubFilterFrom" name="pubFilterFrom"
+                                   placeholder="from">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control mb-3" id="pubFilterTo" name="pubFilterTo"
+                                   placeholder="to">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-dark" type="button" data-dismiss="modal">Apply Filter</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/column-chart-person.js"></script>
+<script th:inline="javascript">
+    window.onload = function () {
+        const graph = /*[[${aDetailVO.echartsVO}]]*/ "??";
+        console.log(graph);
+        const dom = document.getElementById("graphContainer");
+        const myChart = echarts.init(dom);
+        const app = {};
+        let option;
+        const colorTable = ['#FF5733', '#27AE60', '#884ea0'];
+        // myChart.showLoading();
+        graph.nodes.forEach(function (node) {
+            node.symbolSize = 50;
+        });
+        graph.nodes.forEach(function (node) {
+            node.category = parseInt(node.category);
+        })
+        option = {
+            title: {
+                text: ' ',
+                subtext: 'Default layout',
+                top: 'bottom',
+                left: 'right'
+            },
+            tooltip: {},
+            legend: [{
+                // selectedMode: 'single',
+                data: graph.category.map(function (a) {
+                    return a.name;
+                })
+            }],
+            series: [
+                {
+                    name: 'test',
+                    type: 'graph',
+                    layout: 'force',
+                    data: graph.nodes,
+                    links: graph.links,
+                    categories: graph.category,
+                    roam: true,
+                    label: {
+                        show: true
+                    },
+                    force: {
+                        repulsion: 1000
+                    },
+                    emphasis: {
+                        focus: 'adjacency',
+                        lineStyle: {
+                            width: 10
+                        }
+                    }
+                }
+            ],
+            color: colorTable
+        };
+
+        myChart.setOption(option);
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+    }
+
+</script>
+</body>
+</html>
