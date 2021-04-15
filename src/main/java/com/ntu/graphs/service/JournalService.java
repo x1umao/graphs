@@ -16,6 +16,9 @@ public class JournalService {
         return journalRepository.count();
     }
 
-    public void getListingModel(Model model, int page) {
+    public void getListingModel(Model model) {
+    }
+
+    public void loadMoreListing(int page) {
     }
 }

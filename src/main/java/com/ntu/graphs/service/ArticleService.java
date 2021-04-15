@@ -28,9 +28,9 @@ public class ArticleService {
     }
 
 
-    public void getListingModel(Model model, int page) {
+    public void getListingModel(Model model) {
 
-        List<Article> articles = articleRepository.findByPage(page * 5);
+        List<Article> articles = articleRepository.findByPage(0);
         List<ArticleListVO> articleListVOs = new ArrayList<>();
 
         for (Article article : articles) {
@@ -40,10 +40,8 @@ public class ArticleService {
             articleListVOs.add(new ArticleListVO(title, article.getYear(), journalTitle, name));
         }
         model.addAttribute("articles", articleListVOs);
-        if (page == 0) {
-            long totalNodes = articleRepository.count();
-            model.addAttribute("totalNodes", totalNodes);
-        }
+        long totalNodes = articleRepository.count();
+        model.addAttribute("totalNodes", totalNodes);
     }
 
     public List<Article> getArticlesByAuthorName(PersonDetailVO personDetailVO, String name) {
@@ -102,5 +100,17 @@ public class ArticleService {
         articleDetailVO.setEchartsVO(echartsVO);
 
         return articleDetailVO;
+    }
+
+    public List<ArticleListVO> loadMoreListing(int page) {
+        List<Article> articles = articleRepository.findByPage(page*5);
+        List<ArticleListVO> articleListVOs = new ArrayList<>();
+        for (Article article : articles) {
+            String title = article.getTitle();
+            String name = articleRepository.findFirstAuthorByArticleName(title);
+            String journalTitle = articleRepository.findJournalByArticleName(title);
+            articleListVOs.add(new ArticleListVO(title, article.getYear(), journalTitle, name));
+        }
+        return articleListVOs;
     }
 }

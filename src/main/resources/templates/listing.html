@@ -91,7 +91,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-dark my-4">Load More</button>
+            <button class="btn btn-dark my-4" id="loadMore">Load More</button>
         </div>
     </div>
 </div>
@@ -151,6 +151,8 @@
 </div>
 
 <script type="text/javascript">
+    let pageNumber = 0;
+    let category = /*[[${category}]]*/0;//person:0, article:1, journal:2, search:3
     $(function () {
         $('.button-checkbox').each(function () {
 
@@ -204,6 +206,11 @@
             }
 
             init();
+        });
+        $('#loadMore').click( function () {
+            $.get(`loadmore?category=${category}&page=${pageNumber}`,d=> {
+                console.log(d);
+            })
         });
     });
 </script>

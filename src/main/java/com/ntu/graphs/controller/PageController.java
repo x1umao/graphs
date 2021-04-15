@@ -45,13 +45,13 @@ public class PageController {
     public String listing(@RequestParam("category") int category, Model model){
         //0:person, 1:article, 2:journal
         if(category == 0){
-            personService.getListingModel(model,0);
+            personService.getListingModel(model);
             model.addAttribute("category",0);
         }else if(category == 1){
-            articleService.getListingModel(model,0);
+            articleService.getListingModel(model);
             model.addAttribute("category",1);
         }else if(category == 2){
-            journalService.getListingModel(model,0);
+            journalService.getListingModel(model);
             model.addAttribute("category",2);
         }
         return "listing";
