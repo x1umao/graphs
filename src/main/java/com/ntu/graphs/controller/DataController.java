@@ -26,7 +26,7 @@ public class DataController {
     }
 
 
-    @RequestMapping("/loadmore")
+    @GetMapping("/loadmore")
     public LoadMoreVO loadMore(@RequestParam("category") int category,
                           @RequestParam("page") int page){
         LoadMoreVO loadMoreVO = new LoadMoreVO();
@@ -41,4 +41,5 @@ public class DataController {
         System.out.println(page);
         return loadMoreVO;
     }
+
 }

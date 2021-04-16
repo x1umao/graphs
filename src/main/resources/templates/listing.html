@@ -153,6 +153,7 @@
 <script type="text/javascript" th:inline="javascript">
     let pageNumber = 0;
     const category = /*[[${category}]]*/ 20;//person:0, article:1, journal:2, search:3
+    const totalPage = /*[[${totalNodes}/5]]*/ 0;
     $(function () {
         $('.button-checkbox').each(function () {
 
@@ -208,6 +209,9 @@
             init();
         });
         $('#loadMore').click( function () {
+            if (pageNumber===totalPage-1){
+                return;
+            }
             pageNumber++;
             let loadMoreBtn = $('#loadMore');
             $.get(`loadmore?category=${category}&page=${pageNumber}`,d=> {

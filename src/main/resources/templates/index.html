@@ -27,7 +27,8 @@
             <h1 class="pt-5">Find & discover scholarly literature with a new experience.</h1>
             <div class="form-group form-search py-4 my-3">
                 <span class="fa fa-search form-icon"></span>
-                <input type="text" class="form-control" placeholder="Search person, article, journal...">
+                <input type="text" id="search" class="form-control" placeholder="Search person, article, journal...">
+                <ul class="list-group list-group-flush" id="list"></ul>
             </div>
             <h2>Explore</h2>
             <div class="row pb-3">
@@ -62,8 +63,24 @@
         </div>
     </div>
 </div>
-<script>
+<script type="text/javascript">
+    let searchObj = document.querySelector("#search");
+    let oUl = document.getElementById("list");
 
+    searchObj.onkeyup = function(){
+        oUl.innerHTML = "";
+        let text = searchObj.value;
+        //获取节点信息
+        $.get('/search',d=>{
+            console.log(d);
+        });
+        // data.s.forEach(function(value){
+        //     let oLi = document.createElement("li");
+        //     oLi.innerHTML = "<a href=\"https://www.baidu.com/s?wd="+ value + "\">"+ value + "</a>";
+        //     oUl.appendChild(oLi);
+        // })
+        // oUl.style.display = "block";
+    }
 </script>
 </body>
 </html>
