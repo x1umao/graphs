@@ -26,4 +26,7 @@ public interface PersonRepository extends Neo4jRepository<Person,Long> {
 
     @Query("match (p:Person)-[w:WROTE]->(:Article{title:$title}) where not p.name = $name return p limit 5")
     List<Person> findRelatedPersonsByTitle(@Param("title") String title,@Param("name") String name);
+
+    @Query("match (a:Person) where a.name starts with $keyword return a")
+    List<Person> findPersonsByKeyword(@Param("keyword") String keyword);
 }

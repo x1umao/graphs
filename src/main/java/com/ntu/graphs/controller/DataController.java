@@ -9,8 +9,7 @@ import com.ntu.graphs.vo.PersonListVO;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class DataController {
@@ -40,6 +39,19 @@ public class DataController {
         System.out.println(category);
         System.out.println(page);
         return loadMoreVO;
+    }
+
+    @GetMapping("/search")
+    public Map<String,Integer> search(@RequestParam("keyword") String keyword){
+        Map<String,Integer> result = new LinkedHashMap<>();
+        personService.searchKeyword(result,keyword);
+        if(result.size()<5){
+            articleService.searchKeyword(result,keyword);
+        }
+//        if(result.size()<5){
+//            journalService.searchKeyword(result,keyword);
+//        }
+        return result;
     }
 
 }

@@ -8,10 +8,7 @@ import com.ntu.graphs.vo.PersonListVO;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PersonService {
@@ -73,5 +70,15 @@ public class PersonService {
             personListVOSs.add(personListVO);
         }
         return personListVOSs;
+    }
+
+    public void searchKeyword(Map<String,Integer> result, String keyword) {
+        List<Person> persons = personRepository.findPersonsByKeyword(keyword);
+        for(Person p:persons){
+            if(result.size()==5){
+                return;
+            }
+            result.put(p.getName(),0);
+        }
     }
 }

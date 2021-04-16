@@ -9,10 +9,7 @@ import com.ntu.graphs.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ArticleService {
@@ -112,5 +109,16 @@ public class ArticleService {
             articleListVOs.add(new ArticleListVO(title, article.getYear(), journalTitle, name));
         }
         return articleListVOs;
+    }
+
+    public void searchKeyword(Map<String,Integer> result, String keyword) {
+        System.out.println(keyword);
+        List<Article> articles = articleRepository.findArticlesByKeyword(keyword);
+        for(Article a:articles){
+            if(result.size()==5){
+                return;
+            }
+            result.put(a.getTitle(),1);
+        }
     }
 }
