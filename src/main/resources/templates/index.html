@@ -77,7 +77,6 @@
         //获取节点信息
         $.get(`/search?keyword=${text}`,data=>{
             console.log(data);
-
             for (const key in data) {
                 let oLi = document.createElement("li");
                 let value = data[key];
@@ -90,10 +89,6 @@
                 }
                 oUl.appendChild(oLi);
             }
-
-            data.forEach(function(value,key){
-
-            })
         });
 
         // oUl.style.display = "block";
