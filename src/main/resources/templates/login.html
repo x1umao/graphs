@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="images/favicon-small.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="images/favicon-large.png" sizes="32x32">
+    <title>Graphs DB</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/js/crypto-js.min.js"></script>
+</head>
+
+<body class="home-bg">
+<div class="home-gradient"></div>
+<div class="logo pt-5">
+    <a href="/">
+        <img src="images/graphs-logo.svg" class="mx-auto">
+    </a>
+</div>
+<div class="container form-signin">
+    <form method="post">
+        <h1 class="text-center">Login</h1>
+        <div class="form-group form-search pt-4 mt-3">
+            <span class="fa fa-user form-icon"></span>
+            <input type="text" class="form-control mb-3" id="username" name="username" placeholder="Username">
+            <span class="fa fa-lock form-icon"></span>
+            <input type="password" class="form-control mb-3" id="password" name="password" placeholder="Password">
+        </div>
+        <button class="btn btn-dark btn-block mb-3" type="button" onclick="login()">Continue</button>
+        <div id="errorMsg" class="alert alert-danger" style="display: none">
+            Sorry, your password was incorrect. Please double-check your password.
+        </div>
+    </form>
+</div>
+</body>
+<script>
+    function login() {
+        let password = $("#password").val();
+        let username = $("#username").val();
+        $.get(`/key?username=${username}`, key => {
+            const hash = CryptoJS.HmacSHA256(password, username+key);
+            password = CryptoJS.enc.Base64.stringify(hash);
+            $.ajax({
+                url: "/doLogin",
+                type: "POST",
+                data: {
+                    username: username,
+                    password: password
+                },
+                success: function (data) {
+                    if (data.msg) {
+                        window.location.href = "/admin-dash";
+                    } else {
+                        $("#errorMsg").show();
+                    }
+                },
+                error: function () {
+                    alert("network errors!");
+                }
+            });
+        })
+
+    }
+</script>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/png" href="images/favicon-small.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="images/favicon-large.png" sizes="32x32">
+    <title>Graphs DB</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="admin-bg">
+<div class="container pb-4">
+    <div class="row">
+        <div class="col-12 col-lg-10 offset-lg-1">
+            <div class="row py-4">
+                <div class="col-6 my-auto">
+                    <div class="logo">
+                        <a href="/">
+                            <img src="images/graphs-logo.svg">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-dark float-right" type="button" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row pt-5">
+        <div class="col-12 col-lg-10 offset-lg-1">
+            <h1 th:text="|Welcome back, ${username}|">Welcome back, |* Username *|!</h1>
+            <h3 class="pt-5">Data Summary</h3>
+            <div class="row">
+                <div class="col-12 col-md-4">
+                    <div class="card-m card-person">
+                        <span class="fa fa-user-circle card-icon"></span>
+                        <h1 class="pt-4">233</h1>
+                        <h6>Persons</h6>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card-m card-article">
+                        <span class="far fa-file-alt card-icon"></span>
+                        <h1 class="pt-4">7362</h1>
+                        <h6>Articles</h6>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="card-m card-journal">
+                        <span class="fa fa-book card-icon"></span>
+                        <h1 class="pt-4">1022</h1>
+                        <h6>Journals</h6>
+                    </div>
+                </div>
+            </div>
+            <h3 class="pt-5">Manage</h3>
+            <form  id="upload-file-form">
+                <div class="custom-file  mt-4">
+                    <input type="file" class="custom-file-input" id="file" name="file" aria-describedby="inputGroupFileAddon04">
+                    <label class="custom-file-label" for="file">Choose file</label>
+                </div>
+            </form>
+
+            <button class="btn btn-dark mt-4" onclick="upload()">Upload Data</button>
+            <button class="btn btn-secondary ml-2 mt-4">Download Sample CSV</button>
+            <p><small>Acceptable file type: CSV</small></p>
+            <span id="upload-file-message" class="alert alert-danger" style="display: none"></span>
+            <button class="btn btn-dark mt-4"><a href="admin-validate.html">Next</a></button>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+<script>
+    function logout() {
+        $.get("/logout", data => {
+            window.location.href = "/login";
+        })
+    }
+
+    function upload() {
+
+        $.ajax({
+            url: "/upload",
+            type: "POST",
+            data: new FormData($("#upload-file-form")[0]),
+            enctype: 'multipart/form-data',
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (data) {
+                // Handle upload success
+                console.log(data);
+                $("#upload-file-message").text(data).show();
+            },
+            error: function () {
+                // Handle upload error
+                $("#upload-file-message").text(
+                    "File not uploaded (perhaps it's too much big)");
+            }
+        });
+    }
+</script>
+</html>
