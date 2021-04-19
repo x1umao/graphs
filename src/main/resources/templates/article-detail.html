@@ -49,11 +49,11 @@
                     <div class="col-10 col-lg-11" th:object="${aDetailVO.article}">
                         <h4 class="pb-3" th:text="*{title}">Defining “Fake News” A typology of
                             scholarly definitions</h4>
-                        <p th:text="*{authors[0].person.name}">EC Tandoc Jr, ZW Lim, R Ling</p>
+<!--                        <p th:text="#list.isEmpty(*{authors})?'N.A':*{authors[0].person.name}">EC Tandoc Jr, ZW Lim, R Ling</p>-->
                         <p class="ml-5"><b>Published In</b></p>
                         <p class="ml-3" th:text="*{year}">2018</p>
                         <p class="ml-5"><b>Journal</b></p>
-                        <p class="ml-3" th:text="*{journal.title}">Digital Journalism</p>
+                        <p class="ml-3" th:text="*{journal!=null?journal.title:'N.A'}">Digital Journalism</p>
                     </div>
                 </div>
             </div>
@@ -67,15 +67,14 @@
         <div class="col-12 col-lg-4">
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-12">
-                    <div class="card-m">
+                    <div class="card-m" th:if="${aDetailVO.article.journal!=null}">
                         <h5>Related Journal</h5>
                         <!--                        ToDo-->
                         <a href="journal-detail.html" class="card-hover">
                             <div class="card-s card-journal card-s-journal">
                                 <span class="fa fa-book card-icon"></span>
                                 <div class="card-s-info ml-5">
-                                    <h6 class="mb-1" th:text="${aDetailVO.article.journal.title}">Digital
-                                        Journalism</h6>
+                                    <h6 class="mb-1" th:text="${aDetailVO.article.journal.title}">Digital Journalism</h6>
                                     <p><b>Articles</b></p>
                                     <p class="ml-2" th:text="${aDetailVO.jCounter}">345</p>
                                 </div>
@@ -99,7 +98,6 @@
                                 </div>
                             </a>
                         </div>
-
                     </div>
                 </div>
             </div>

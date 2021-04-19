@@ -1,6 +1,8 @@
 package com.ntu.graphs.controller;
 
 import com.ntu.graphs.entity.Article;
+import com.ntu.graphs.entity.Author;
+import com.ntu.graphs.entity.Person;
 import com.ntu.graphs.service.ArticleService;
 import com.ntu.graphs.service.JournalService;
 import com.ntu.graphs.service.PersonService;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -82,9 +85,14 @@ public class PageController {
     @GetMapping("/article-detail")
     public String articleDetail(@RequestParam("title") String title, Model model){
         ArticleDetailVO articleDetailVO = articleService.getArticleDetailVO(title);
+
+
+        Person person = new Person("1","male");
+        Author author = new Author(1, person);
+        Set<Author> authors = new HashSet<>();
+        articleDetailVO.getArticle().setAuthors(authors);
         System.out.println(articleDetailVO);
         model.addAttribute("aDetailVO",articleDetailVO);
-
         return "article-detail";
     }
 
