@@ -15,7 +15,7 @@ public interface ArticleRepository extends Neo4jRepository<Article,Long> {
     void deleteAll();
 
     //靠name查找文章
-    @Query("match p=(:Person {name: $name})-[:WROTE]->(:Article)-[:PUBLISHED_IN]->(:Journal) return p")
+    @Query("match p=(:Person {name: $name})-[:WROTE]->(:Article) return p")
     List<Article> findArticlesByAuthorName(@Param("name") String name);
 
     //query for list
@@ -41,4 +41,14 @@ public interface ArticleRepository extends Neo4jRepository<Article,Long> {
 
     @Query("match (a:Article) where a.title starts with $keyword return a")
     List<Article> findArticlesByKeyword(@Param("keyword") String keyword);
+
+    @Query("match (p:Person{name:$author}) " +
+            "match (a:Article{title:$title}) " +
+            "merge (p)-[:WROTE{order:$order}]->(a)")
+    void saveWroteRelation(String title, String author, int order);
+
+    @Query("match (a:Article{title:$article}) " +
+            "match (j:Journal{title:$journal}) " +
+            "merge (a)-[:PUBLISHED_IN]->(j)")
+    void savePublishedInRelation(String article, String journal);
 }
