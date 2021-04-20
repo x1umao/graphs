@@ -19,3 +19,7 @@ keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -key
 前端后端两次hmac
 前端密钥数据库随机生成
 后端密钥为用户设置
+
+### 更新策略:
+* 上传文件后，对服务进行加锁，更新完数据库释放锁后才可以再次更新数据库。
+

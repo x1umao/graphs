@@ -75,7 +75,6 @@ public class PageController {
         //query related persons
         Set<PersonListVO> relatedPerson = personService.getRelatedPersonByArticle(articles,name);
         personDetailVO.setRelatedPerson(relatedPerson);
-        System.out.println(articles.size());
 
         model.addAttribute("pDetailVO",personDetailVO);
 
