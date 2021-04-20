@@ -18,5 +18,10 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
 
 
