@@ -22,7 +22,7 @@ public class FileService {
             log.info("File format is：" + suffixName);
             // 设置文件存储路径
             String filePath = new File("").getAbsolutePath();
-            String path = filePath +"\\"+fileName;
+            String path = filePath +"\\DB\\"+fileName;
             File dest = new File(path);
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
