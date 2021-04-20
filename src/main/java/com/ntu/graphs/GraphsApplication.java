@@ -1,9 +1,7 @@
 package com.ntu.graphs;
 
-import com.ntu.graphs.dao.AdminRepository;
 import com.ntu.graphs.dao.ArticleRepository;
 import com.ntu.graphs.dao.PersonRepository;
-import com.ntu.graphs.entity.Admin;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -26,14 +24,12 @@ public class GraphsApplication {
     }
 
     @Bean
-    CommandLineRunner demo(PersonRepository personRepository, AdminRepository adminRepository, ArticleRepository articleRepository){
+    CommandLineRunner demo(PersonRepository personRepository, ArticleRepository articleRepository){
         return args -> {
 
             shellTestOnWin();
 
             personRepository.deleteAll();
-            Admin xiaoming = new Admin("xiaoming", "123456");
-            adminRepository.save(xiaoming);
 
         };
     }
