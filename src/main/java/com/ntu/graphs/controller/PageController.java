@@ -84,12 +84,6 @@ public class PageController {
     @GetMapping("/article-detail")
     public String articleDetail(@RequestParam("title") String title, Model model){
         ArticleDetailVO articleDetailVO = articleService.getArticleDetailVO(title);
-
-
-        Person person = new Person("1","male");
-        Author author = new Author(1, person);
-        Set<Author> authors = new HashSet<>();
-        articleDetailVO.getArticle().setAuthors(authors);
         System.out.println(articleDetailVO);
         model.addAttribute("aDetailVO",articleDetailVO);
         return "article-detail";
