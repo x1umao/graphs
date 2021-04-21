@@ -20,5 +20,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         interceptorRegistration.addPathPatterns("/admin-validate");
         interceptorRegistration.addPathPatterns("/upload");
         interceptorRegistration.addPathPatterns("/logout");
+        interceptorRegistration.addPathPatterns("/update");
     }
 }

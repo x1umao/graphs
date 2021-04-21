@@ -46,14 +46,35 @@ public class AdminController {
         System.out.println(file);
         if (file.isEmpty()) {
             return "Empty file!";
-        }else{
+        }else if (fileService.getLock()){
+            return "The database is being written";
+        }
+        else{
             return fileService.upload(file);
         }
     }
 
     @GetMapping("/admin-validate")
-    public String dataValidate(){
+    public String dataValidate(Model model){
+        fileService.validate(model);
         return "admin-validate";
+    }
+
+    @GetMapping("/invalid")
+    @ResponseBody
+    public String invalid(){
+        return fileService.invalid();
+    }
+
+    @GetMapping("/update")
+    @ResponseBody
+    public String updateNeo4j(){
+        if(fileService.lock()){
+            fileService.updateNeo4j();
+            return "ok";
+        }else{
+            return "no";
+        }
     }
 
 }

@@ -49,7 +49,7 @@
                     <div class="col-10 col-lg-11" th:object="${aDetailVO.article}">
                         <h4 class="pb-3" th:text="*{title}">Defining “Fake News” A typology of
                             scholarly definitions</h4>
-<!--                        <p th:text="#list.isEmpty(*{authors})?'N.A':*{authors[0].person.name}">EC Tandoc Jr, ZW Lim, R Ling</p>-->
+                        <p th:if="*{authors!=null}" th:text="*{authors[0].person.name}">EC Tandoc Jr, ZW Lim, R Ling</p>
                         <p class="ml-5"><b>Published In</b></p>
                         <p class="ml-3" th:text="*{year}">2018</p>
                         <p class="ml-5"><b>Journal</b></p>
@@ -196,7 +196,7 @@
 <script src="js/column-chart-person.js"></script>
 <script th:inline="javascript">
     window.onload = function () {
-        const graph = /*[[${aDetailVO.echartsVO}]]*/ "??";
+        const graph = /*[[${aDetailVO.echartsVO}]]*/ "";
         console.log(graph);
         const dom = document.getElementById("graphContainer");
         const myChart = echarts.init(dom);

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -38,24 +38,59 @@
 				<table class="table table-borderless table-sm table-upload">
 					<tbody>
 						<tr>
-							<th scope="row">Total Entries</th>
-							<td>100</td>
+							<th scope="row">Total rows</th>
+							<td th:text="${counter}">100</td>
 						</tr>
 						<tr>
-							<th scope="row">Verified</th>
-							<td>99</td>
+							<th scope="row">Person nodes</th>
+							<td th:text="${person}">99</td>
 						</tr>
 						<tr>
-							<th scope="row">Error</th>
-							<td colspan="2">1</td>
+							<th scope="row">Article nodes</th>
+							<td th:text="${article}">99</td>
 						</tr>
+						<tr>
+							<th scope="row">Journal nodes</th>
+							<td th:text="${journal}">99</td>
+						</tr>
+
 					</tbody>
 				</table>
-				<button class="btn btn-secondary mt-5"><a href="admin-dash.html">Replace File</a></button>
-				<button class="btn btn-dark ml-2 mt-5"><a href="admin-dash.html">Complete Upload</a></button>
+				<button class="btn btn-secondary mt-5" onclick="reUpload()">Replace File</button>
+				<button class="btn btn-dark ml-2 mt-5" onclick="update()">Complete Upload</button>
+				<div class="alert alert-secondary row" role="alert" id="alert" style="display:none">
+					Server starts to update Neo4j. return in &nbsp<span id="time">5</span>&nbsp seconds.
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
 </body>
+<script>
+	let i = 5;
+	function update(){
+
+		$.get("/update",data=>{
+			$("#alert").show();
+			console.log(data);
+			setTimeout(d=>{
+				window.location.href = "/admin-dash";
+			},5000);
+			after();
+		})
+	}
+	function after(){
+		$("#time").empty().append(" "+i+" ");
+		i=i-1;
+		setTimeout(function(){
+			after();
+		},1000);
+	}
+	function reUpload(){
+		$.get("/invalid",data=>{
+			console.log(data);
+			window.location.href = "/admin-dash";
+		})
+	}
+</script>
 </html>
