@@ -233,11 +233,13 @@
                     links: graph.links,
                     categories: graph.category,
                     roam: true,
+                    draggable: true,
                     label: {
                         show: true
                     },
                     force: {
-                        repulsion: 1000
+                        repulsion: 1000,
+                        edgeLength: 80
                     },
                     emphasis: {
                         focus: 'adjacency',

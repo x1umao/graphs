@@ -221,12 +221,17 @@
                     links: graph.links,
                     categories: graph.category,
                     roam: true,
+                    draggable: true,
+                    layoutAnimation: false,
                     label: {
-                        show: true
+                        show: true,
+                        width: 10
                     },
                     force: {
-                        repulsion: 1000
+                        repulsion: 300,
+                        edgeLength: 300
                     },
+                    edgeSymbol:['none', 'arrow'],
                     emphasis: {
                         focus: 'adjacency',
                         lineStyle: {
