@@ -19,8 +19,8 @@ public interface ArticleRepository extends Neo4jRepository<Article,Long> {
     List<Article> findArticlesByAuthorName(@Param("name") String name);
 
     //query for list
-    @Query("match (a:Article) return a skip $page limit 5")
-    List<Article> findByPage(@Param("page") int page);
+    @Query("match (a:Article) where a.title contains $keyword return a skip $page limit 5")
+    List<Article> findByPage(@Param("page") int page,@Param("keyword") String keyword);
 
     @Query("match (p:Person)-[:WROTE{order:1}]->(:Article {title:$title}) return p.name")
     String findFirstAuthorByArticleName(@Param("title") String title);

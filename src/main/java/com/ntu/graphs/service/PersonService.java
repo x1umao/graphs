@@ -24,8 +24,8 @@ public class PersonService {
     }
 
     //per 5 persons
-    public void getListingModel(Model model) {
-        List<Person> persons = personRepository.findByPage(0);
+    public void getListingModel(Model model, String keyword) {
+        List<Person> persons = personRepository.findByPage(0,keyword);
         List<PersonListVO> personListVOSs = new ArrayList<>();
         long totalNodes = 0;
         for(Person p:persons){
@@ -61,8 +61,8 @@ public class PersonService {
         return personListVOs;
     }
 
-    public List<PersonListVO> loadMoreListing(int page) {
-        List<Person> persons = personRepository.findByPage(page*5);
+    public List<PersonListVO> loadMoreListing(int page, String keyword) {
+        List<Person> persons = personRepository.findByPage(page*5,keyword);
         List<PersonListVO> personListVOSs = new ArrayList<>();
         long totalNodes = 0;
         for(Person p:persons){

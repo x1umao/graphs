@@ -1,8 +1,6 @@
 package com.ntu.graphs.controller;
 
 import com.ntu.graphs.entity.Article;
-import com.ntu.graphs.entity.Author;
-import com.ntu.graphs.entity.Person;
 import com.ntu.graphs.service.ArticleService;
 import com.ntu.graphs.service.JournalService;
 import com.ntu.graphs.service.PersonService;
@@ -16,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,7 +32,7 @@ public class PageController {
     }
 
 
-    @GetMapping(value = {"/","index","index.html"})
+    @GetMapping(value = {"/", "index", "index.html"})
     public String index(Model model) {
         model.addAttribute("person", personService.countNodes());
         model.addAttribute("article", articleService.countNodes());
@@ -45,27 +42,29 @@ public class PageController {
 
 
     @GetMapping("/listing")
-    public String listing(@RequestParam("category") int category, Model model){
+    public String listing(@RequestParam("category") int category,
+                          @RequestParam(value="keyword",defaultValue="") String keyword,
+                          Model model) {
         //0:person, 1:article, 2:journal
-        if(category == 0){
-            personService.getListingModel(model);
-            model.addAttribute("category",0);
-        }else if(category == 1){
-            articleService.getListingModel(model);
-            model.addAttribute("category",1);
-        }else if(category == 2){
+        if (category == 0) {
+            personService.getListingModel(model,keyword);
+            model.addAttribute("category", 0);
+        } else if (category == 1) {
+            articleService.getListingModel(model,keyword);
+            model.addAttribute("category", 1);
+        } else if (category == 2) {
             journalService.getListingModel(model);
-            model.addAttribute("category",2);
+            model.addAttribute("category", 2);
         }
         return "listing";
     }
 
     @GetMapping("/person-detail")
-    public String personDetail(@RequestParam("name") String name, Model model){
+    public String personDetail(@RequestParam("name") String name, Model model) {
         PersonDetailVO personDetailVO = new PersonDetailVO();
 
         //query himself
-        personService.getPersonAndCounter(personDetailVO,name);
+        personService.getPersonAndCounter(personDetailVO, name);
 
         //query graph
         List<Article> articles = articleService.getArticlesByAuthorName(personDetailVO, name);
@@ -73,19 +72,19 @@ public class PageController {
         personDetailVO.setEchartsVO(echartsVO);
 
         //query related persons
-        Set<PersonListVO> relatedPerson = personService.getRelatedPersonByArticle(articles,name);
+        Set<PersonListVO> relatedPerson = personService.getRelatedPersonByArticle(articles, name);
         personDetailVO.setRelatedPerson(relatedPerson);
 
-        model.addAttribute("pDetailVO",personDetailVO);
+        model.addAttribute("pDetailVO", personDetailVO);
 
         return "person-detail";
     }
 
     @GetMapping("/article-detail")
-    public String articleDetail(@RequestParam("title") String title, Model model){
+    public String articleDetail(@RequestParam("title") String title, Model model) {
         ArticleDetailVO articleDetailVO = articleService.getArticleDetailVO(title);
         System.out.println(articleDetailVO);
-        model.addAttribute("aDetailVO",articleDetailVO);
+        model.addAttribute("aDetailVO", articleDetailVO);
         return "article-detail";
     }
 

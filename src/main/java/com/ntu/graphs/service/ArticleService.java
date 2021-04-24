@@ -25,9 +25,9 @@ public class ArticleService {
     }
 
 
-    public void getListingModel(Model model) {
+    public void getListingModel(Model model, String keyword) {
 
-        List<Article> articles = articleRepository.findByPage(0);
+        List<Article> articles = articleRepository.findByPage(0, keyword);
         List<ArticleListVO> articleListVOs = new ArrayList<>();
 
         for (Article article : articles) {
@@ -99,8 +99,8 @@ public class ArticleService {
         return articleDetailVO;
     }
 
-    public List<ArticleListVO> loadMoreListing(int page) {
-        List<Article> articles = articleRepository.findByPage(page*5);
+    public List<ArticleListVO> loadMoreListing(int page, String keyword) {
+        List<Article> articles = articleRepository.findByPage(page*5,keyword);
         List<ArticleListVO> articleListVOs = new ArrayList<>();
         for (Article article : articles) {
             String title = article.getTitle();
