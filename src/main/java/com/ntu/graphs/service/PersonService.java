@@ -33,7 +33,7 @@ public class PersonService {
             personListVOSs.add(personListVO);
         }
         model.addAttribute("persons",personListVOSs);
-        totalNodes = personRepository.count();
+        totalNodes = personRepository.countByKeyword(keyword);
         model.addAttribute("totalNodes",totalNodes);
         model.addAttribute("category",0);
     }

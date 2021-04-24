@@ -29,6 +29,7 @@ public class ArticleService {
 
         List<Article> articles = articleRepository.findByPage(0, keyword);
         List<ArticleListVO> articleListVOs = new ArrayList<>();
+        System.out.println(articles.size());
 
         for (Article article : articles) {
             String title = article.getTitle();
@@ -37,7 +38,7 @@ public class ArticleService {
             articleListVOs.add(new ArticleListVO(title, article.getYear(), journalTitle, name));
         }
         model.addAttribute("articles", articleListVOs);
-        long totalNodes = articleRepository.count();
+        long totalNodes = articleRepository.countByKeyword(keyword);;
         model.addAttribute("totalNodes", totalNodes);
     }
 

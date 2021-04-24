@@ -19,7 +19,7 @@ public interface ArticleRepository extends Neo4jRepository<Article,Long> {
     List<Article> findArticlesByAuthorName(@Param("name") String name);
 
     //query for list
-    @Query("match (a:Article) where a.title contains $keyword return a skip $page limit 5")
+    @Query("match (a:Article) where toLower(a.title) contains $keyword return a skip $page limit 5")
     List<Article> findByPage(@Param("page") int page,@Param("keyword") String keyword);
 
     @Query("match (p:Person)-[:WROTE{order:1}]->(:Article {title:$title}) return p.name")
@@ -51,4 +51,7 @@ public interface ArticleRepository extends Neo4jRepository<Article,Long> {
             "match (j:Journal{title:$journal}) " +
             "merge (a)-[:PUBLISHED_IN]->(j)")
     void savePublishedInRelation(String article, String journal);
+
+    @Query("match (a:Article) where toLower(a.title) contains $keyword return count(a)")
+    long countByKeyword(String keyword);
 }

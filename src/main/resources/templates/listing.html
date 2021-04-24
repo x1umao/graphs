@@ -154,6 +154,7 @@
     let pageNumber = 0;
     const category = /*[[${category}]]*/ 20;//person:0, article:1, journal:2, search:3
     const totalPage = /*[[${totalNodes}/5]]*/ 0;
+    const keyword = /*[[${keyword}]]*/ "";
     $(function () {
         $('.button-checkbox').each(function () {
 
@@ -209,12 +210,13 @@
             init();
         });
         $('#loadMore').click( function () {
-            if (pageNumber===totalPage-1){
+            if (pageNumber>totalPage){
                 return;
             }
             pageNumber++;
+            console.log(pageNumber);
             let loadMoreBtn = $('#loadMore');
-            $.get(`loadmore?category=${category}&page=${pageNumber}`,d=> {
+            $.get(`loadmore?category=${category}&page=${pageNumber}&keyword=${keyword}`,d=> {
                 // $(`#card${category}>input:first`);
                 if(category===0){
                     d.personListVOS.forEach(data=>{

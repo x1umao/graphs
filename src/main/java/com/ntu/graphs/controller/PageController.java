@@ -56,6 +56,7 @@ public class PageController {
             journalService.getListingModel(model);
             model.addAttribute("category", 2);
         }
+        model.addAttribute("keyword",keyword);
         return "listing";
     }
 

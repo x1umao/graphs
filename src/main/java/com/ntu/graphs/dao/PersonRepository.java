@@ -18,7 +18,10 @@ public interface PersonRepository extends Neo4jRepository<Person,Long> {
 
     boolean existsByName(String name);
 
-    @Query("match (p:Person) where p.name contains $keyword return p skip $page limit 5")
+    @Query("match (p:Person) where toLower(p.name) contains $keyword return count(p)")
+    int countByKeyword(String keyword);
+
+    @Query("match (p:Person) where toLower(p.name) contains $keyword return p skip $page limit 5")
     List<Person> findByPage(@Param("page") int page, @Param("keyword") String keyword);
 
     @Query("match p=(:Person{name:$name})-[:WROTE]->(a:Article) return count(a)")
