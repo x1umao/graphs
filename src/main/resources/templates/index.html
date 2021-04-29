@@ -29,9 +29,10 @@
                 <span class="fa fa-search form-icon"></span>
                 <input type="text" id="search" class="form-control" placeholder="Search person, article, journal...">
                 <div class="search-dropdown" id="suggest" style="display: none">
-                    <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="person"></span> results in <em>Person</em></button>
-                    <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="article"></span> results in <em>Article</em></button>
-                    <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="journal"></span> results in <em>Journal</em></button>
+                    <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="person"></span> results in <em>Person</em></button>
+                    <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="article"></span> results in <em>Article</em></button>
+                    <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="journal"></span> results in <em>Journal</em></button>
+                    <button type="button" class="dropdown-item disabled" id="alert0"> <i> <em>0</em> result is found</i> </button>
                 </div>
             </div>
             <h2>Explore</h2>

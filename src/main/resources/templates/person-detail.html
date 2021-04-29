@@ -28,13 +28,14 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-8 col-lg-9">
-                    <div class="form-group form-search mb-0 mr-6 pr-3">
+                    <div class="form-group form-search mb-0 mr-6">
                         <span class="fa fa-search form-icon"></span>
-                        <input type="text" class="form-control" id="search" placeholder="Search person, article, journal...">
+                        <input type="text" id="search" class="form-control" placeholder="Search person, article, journal...">
                         <div class="search-dropdown" id="suggest" style="display: none">
-                            <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="person"></span> results in <em>Person</em></button>
-                            <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="article"></span> results in <em>Article</em></button>
-                            <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="journal"></span> results in <em>Journal</em></button>
+                            <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="person"></span> results in <em>Person</em></button>
+                            <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="article"></span> results in <em>Article</em></button>
+                            <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="journal"></span> results in <em>Journal</em></button>
+                            <button type="button" class="dropdown-item disabled" id="alert0"> <i> <em>0</em> result is found</i> </button>
                         </div>
                     </div>
                 </div>
@@ -95,6 +96,7 @@
     const graph = /*[[${pDetailVO.echartsVO}]]*/ "??";
     renderGraph();
     renderBar();
+    fillSearchBar();
 
     function renderGraph() {
         const dom = document.getElementById("graphContainer");
@@ -123,14 +125,20 @@
                 top: 'bottom',
                 left: 'right'
             },
-            tooltip: {}
+            tooltip: {
+                position:'inside'
+            }
             ,toolbox: {
                 show: true,
                 itemSize: 30,
                 top: '90%',
                 right: '5%',
                 feature: {
-                    saveAsImage: {}
+
+                    saveAsImage: {
+                        show: true,
+                        icon: 'image://images/download.png'
+                    }
                 }
             },
             legend: [{
@@ -275,7 +283,7 @@
                     .style("left", d3.event.pageX + 5 + "px")
                     .style("top", d3.event.pageY - 80 + "px")
                     .style("display", "inline-block")
-                    .html((formatComma(d.travellers)));
+                    .html(`number of articles: ${d.travellers}`);
             })
             .on("mouseout", function (d) {
                 tooltip.style("display", "none");
@@ -290,6 +298,14 @@
 
     }
 
+    function fillSearchBar(){
+        const searchBar = document.querySelector("#search");
+        const referer = document.referrer;
+        const keyword = referer.slice(referer.indexOf('keyword=')+8);
+        if(keyword!==undefined){
+            searchBar.value = keyword;
+        }
+    }
 
 </script>
 </body>

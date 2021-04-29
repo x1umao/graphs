@@ -10,9 +10,30 @@ searchObj.onkeyup = function(){
     }
     //获取节点信息
     $.get(`/search?keyword=${text}`,data=>{
-        console.log(data);
+        let counter = 0;
         for (const key in data) {
-            document.querySelector(`#${key}`).innerHTML = `<em>${data[key]}<em>`;
+            const NumOfNodes = data[key];
+            let button = document.querySelector(`#${key}`);
+            counter += NumOfNodes;
+            button.innerHTML = `<em>${NumOfNodes}</em>`;
+            if(NumOfNodes===0){
+                button.parentNode.classList.add('disabled');
+            }else{
+                button.parentNode.classList.remove('disabled');
+            }
+        }
+        let buttons = document.querySelectorAll('.suggestButton');
+        let alert0 = document.querySelector('#alert0');
+        if(counter === 0){
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = 'none';
+            }
+            alert0.style.display = 'block';
+        }else {
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = 'block';
+            }
+            alert0.style.display = 'none';
         }
     });
     suggest.style.display = 'block';
