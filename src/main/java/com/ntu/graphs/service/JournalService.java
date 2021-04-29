@@ -36,4 +36,7 @@ public class JournalService {
         }
     }
 
+    public Long countNodeByKeyword(String keyword) {
+        return 0L;
+    }
 }

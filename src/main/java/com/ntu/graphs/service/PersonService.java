@@ -72,13 +72,7 @@ public class PersonService {
         return personListVOSs;
     }
 
-    public void searchKeyword(Map<String,Integer> result, String keyword) {
-        List<Person> persons = personRepository.findPersonsByKeyword(keyword);
-        for(Person p:persons){
-            if(result.size()==5){
-                return;
-            }
-            result.put(p.getName(),0);
-        }
+    public Long countNodeByKeyword(String keyword) {
+        return personRepository.countByKeyword(keyword);
     }
 }

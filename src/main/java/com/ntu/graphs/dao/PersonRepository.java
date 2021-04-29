@@ -19,7 +19,7 @@ public interface PersonRepository extends Neo4jRepository<Person,Long> {
     boolean existsByName(String name);
 
     @Query("match (p:Person) where toLower(p.name) contains $keyword return count(p)")
-    int countByKeyword(String keyword);
+    long countByKeyword(String keyword);
 
     @Query("match (p:Person) where toLower(p.name) contains $keyword return p skip $page limit 5")
     List<Person> findByPage(@Param("page") int page, @Param("keyword") String keyword);
@@ -30,6 +30,4 @@ public interface PersonRepository extends Neo4jRepository<Person,Long> {
     @Query("match (p:Person)-[w:WROTE]->(:Article{title:$title}) where not p.name = $name return p limit 5")
     List<Person> findRelatedPersonsByTitle(@Param("title") String title,@Param("name") String name);
 
-    @Query("match (a:Person) where a.name starts with $keyword return a")
-    List<Person> findPersonsByKeyword(@Param("keyword") String keyword);
 }

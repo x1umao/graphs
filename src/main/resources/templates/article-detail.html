@@ -30,7 +30,12 @@
                 <div class="col-12 col-md-8 col-lg-9">
                     <div class="form-group form-search mb-0 mr-5 pr-3">
                         <span class="fa fa-search form-icon"></span>
-                        <input type="text" class="form-control" placeholder="Search person, article, journal...">
+                        <input type="text" class="form-control" id="search" placeholder="Search person, article, journal...">
+                        <div class="search-dropdown" id="suggest" style="display: none">
+                            <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="person"></span> results in <em>Person</em></button>
+                            <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="article"></span> results in <em>Article</em></button>
+                            <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="journal"></span> results in <em>Journal</em></button>
+                        </div>
                     </div>
                     <button class="btn btn-dark btn-sqr search-filter"><a href="#" data-toggle="modal"
                                                                           data-target="#FilterModal"><i
@@ -105,94 +110,7 @@
     </div>
 </div>
 
-<!-- Filter Modal-->
-<div class="modal fade" id="FilterModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalLabel">Set Filters</h6>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-12">
-                            <h6 class="pb-3">Publication Year</h6>
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control mb-3" id="pubFilterFrom" name="pubFilterFrom"
-                                   placeholder="from">
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control mb-3" id="pubFilterTo" name="pubFilterTo"
-                                   placeholder="to">
-                        </div>
-                        <div class="col-12">
-                            <h6 class="pb-3">Category</h6>
-                            <div class="btn-group" data-toggle="buttons">
-                                    			<span class="button-checkbox">
-											        <button type="button" class="btn" data-color="dark">Person</button>
-											        <input type="checkbox" style="display: none;"/>
-											    </span>
-                                <span class="button-checkbox">
-											        <button type="button" class="btn ml-2"
-                                                            data-color="dark">Article</button>
-											        <input type="checkbox" style="display: none;"/>
-											    </span>
-                                <span class="button-checkbox">
-											        <button type="button" class="btn ml-2"
-                                                            data-color="dark">Journal</button>
-											        <input type="checkbox" style="display: none;"/>
-											    </span>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-dark" type="button" data-dismiss="modal">Apply Filter</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Graph Filter Modal-->
-<div class="modal fade" id="graphModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalLabel">Set Graph Filters</h6>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row">
-                        <div class="col-12">
-                            <h6 class="pb-3">Publication Year</h6>
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control mb-3" id="pubFilterFrom" name="pubFilterFrom"
-                                   placeholder="from">
-                        </div>
-                        <div class="col-6">
-                            <input type="text" class="form-control mb-3" id="pubFilterTo" name="pubFilterTo"
-                                   placeholder="to">
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-dark" type="button" data-dismiss="modal">Apply Filter</button>
-            </div>
-        </div>
-    </div>
-</div>
+<script src="js/search.js"></script>
 <script src="js/column-chart-person.js"></script>
 <script th:inline="javascript">
     window.onload = function () {

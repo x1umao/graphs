@@ -28,7 +28,11 @@
             <div class="form-group form-search py-4 my-3">
                 <span class="fa fa-search form-icon"></span>
                 <input type="text" id="search" class="form-control" placeholder="Search person, article, journal...">
-                <ul id="list"></ul>
+                <div class="search-dropdown" id="suggest" style="display: none">
+                    <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="person"></span> results in <em>Person</em></button>
+                    <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="article"></span> results in <em>Article</em></button>
+                    <button type="button" class="dropdown-item" onclick="toList(this)"> <span id="journal"></span> results in <em>Journal</em></button>
+                </div>
             </div>
             <h2>Explore</h2>
             <div class="row pb-3">
@@ -63,35 +67,6 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-    let searchObj = document.querySelector("#search");
-    let oUl = document.getElementById("list");
-
-    searchObj.onkeyup = function(){
-        oUl.innerHTML = "";
-        let text = searchObj.value;
-        //长度为0时不请求
-        if(text===''){
-            return;
-        }
-        //获取节点信息
-        $.get(`/search?keyword=${text}`,data=>{
-            console.log(data);
-            for (const key in data) {
-                let oLi = document.createElement("li");
-                let value = data[key];
-                if(value===0){
-                    oLi.innerHTML = "<a href=\"person-detail?name="+ key + "\">"+ key + "</a>";
-                }else if(value===1){
-                    oLi.innerHTML = "<a href=\"article-detail?title="+ key + "\">"+ key + "</a>";
-                }else if(value===2){
-                    oLi.innerHTML = "<a href=\"journal-detail?title="+ key + "\">"+ key + "</a>";
-                }
-                oUl.appendChild(oLi);
-            }
-        });
-        // oUl.style.display = "block";
-    }
-</script>
+<script src="js/search.js"></script>
 </body>
 </html>

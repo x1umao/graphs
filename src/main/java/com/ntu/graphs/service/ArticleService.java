@@ -112,14 +112,7 @@ public class ArticleService {
         return articleListVOs;
     }
 
-    public void searchKeyword(Map<String,Integer> result, String keyword) {
-        System.out.println(keyword);
-        List<Article> articles = articleRepository.findArticlesByKeyword(keyword);
-        for(Article a:articles){
-            if(result.size()==5){
-                return;
-            }
-            result.put(a.getTitle(),1);
-        }
+    public long countNodeByKeyword(String keyword) {
+        return articleRepository.countByKeyword(keyword);
     }
 }

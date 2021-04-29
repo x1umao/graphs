@@ -43,15 +43,11 @@ public class DataController {
     }
 
     @GetMapping("/search")
-    public Map<String, Integer> search(@RequestParam("keyword") String keyword) {
-        Map<String, Integer> result = new LinkedHashMap<>();
-        personService.searchKeyword(result, keyword);
-        if (result.size() < 5) {
-            articleService.searchKeyword(result, keyword);
-        }
-//        if(result.size()<5){
-//            journalService.searchKeyword(result,keyword);
-//        }
+    public Map<String, Long> search(@RequestParam("keyword") String keyword) {
+        Map<String, Long> result = new LinkedHashMap<>();
+        result.put("person",personService.countNodeByKeyword(keyword));
+        result.put("article",articleService.countNodeByKeyword(keyword));
+        result.put("journal",journalService.countNodeByKeyword(keyword));
         return result;
     }
 
