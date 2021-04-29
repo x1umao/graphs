@@ -144,9 +144,8 @@ input:focus {
   background: #fafafa;
 }
 
-@media only screen and (min-width: 768px) {
-  .home-gradient {
-    position: absolute;
+.home-gradient {
+    position: fixed;
     height: 30vh;
     bottom: 0;
     left: 0;
@@ -154,6 +153,7 @@ input:focus {
     background: linear-gradient(0deg,#fff 3%,hsla(0,0%,100%,0));
   }
 
+@media only screen and (min-width: 768px) {
   .home-content {
     position: absolute;
     top: 50%;
@@ -164,6 +164,10 @@ input:focus {
 
 .form-control {
   border-radius: 10px;
+}
+
+.form-search {
+  position: relative;
 }
 
 .form-search .form-control {
@@ -329,6 +333,30 @@ a.card-hover:hover {
 .table-upload {
   width: 100%;
   max-width: 200px;
+}
+
+/** search suggestion **/
+.search-dropdown {
+  z-index: 999;
+  position: absolute;
+  width: 100%;
+  margin-top: 1px;
+  padding: 15px;
+  border: none;
+  border-radius: 15px;
+  font-size: 0.875rem;
+  box-shadow: 2px 10px 20px rgb(46 54 68 / 5%);
+  background: #fff;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.dropdown-item em {
+ font-weight: 700;
+ font-style: normal;
 }
 
 /** charts **/
