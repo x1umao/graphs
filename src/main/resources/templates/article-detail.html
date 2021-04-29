@@ -114,13 +114,17 @@
         const myChart = echarts.init(dom);
         const app = {};
         let option;
-        const colorTable = ['#FF5733', '#27AE60', '#884ea0'];
+        const colorTable = ['rgba(76, 142, 230, 1)', 'rgba(228, 78, 43, 1)', 'rgba(248, 181, 41, 1)'];
         // myChart.showLoading();
         graph.nodes.forEach(function (node) {
             node.symbolSize = 50;
         });
         graph.nodes.forEach(function (node) {
             node.category = parseInt(node.category);
+            if(node.category===1){
+                node.value = "Year: "+node.value;
+            }
+            node.label = {show:false};
         })
         option = {
             title: {
