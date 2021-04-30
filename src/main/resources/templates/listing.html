@@ -50,7 +50,8 @@
                             </div>
                             <div class="col-10 col-lg-11" id="card0">
                                 <h4 class="pb-3" th:text="${p.name}" id="name">Edson C. Tandoc Jr.</h4>
-                                <p th:text="${p.gender}" id="gender">Male</p>
+                                <p><b>Gender</b></p>
+                                <p class="ml-3" th:text="${p.gender}" id="gender">Male</p>
                                 <p class="ml-5"><b>Articles</b></p>
                                 <p class="ml-3" th:text="${p.counter}" id="counter">121</p>
                             </div>
@@ -181,7 +182,13 @@
                         let card = $('#card1').clone();
                         card.find('h4#title').html(data.title);
                         card.find('p#year').html(data.year);
-                        card.find('p#journalTitle').html(data.journalTitle);
+
+                        if(data.journalTitle===null){
+                            card.find('p#journalTitle').html('N.A');
+                        }else{
+                            card.find('p#journalTitle').html(data.journalTitle);
+                        }
+
                         card.find('p#firstAuthor').html(data.firstAuthor);
                         card.find('a').attr('href',`article-detail?title=${data.title}`);
                         loadMoreBtn.before(card);
