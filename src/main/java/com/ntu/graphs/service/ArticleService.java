@@ -115,4 +115,48 @@ public class ArticleService {
     public long countNodeByKeyword(String keyword) {
         return articleRepository.countByKeyword(keyword);
     }
+
+    public void setCoauthorsToEchartsVO(List<Article> articles, EchartsVO echartsVO) {
+        Map<String,String> link = new HashMap<>();
+        Map<String,Map<String,String>> newNode = new HashMap<>();
+        List<Map<String, String>> links = echartsVO.getLinks();
+        List<Map<String, String>> nodes = echartsVO.getNodes();
+        for(Article article:articles){
+            System.out.println(article);
+            String title = article.getTitle();
+            String name = "";
+            long articleId = article.getId();
+            for(Author author: article.getAuthors()){
+                name = author.getPerson().getName();
+            }
+
+            Set<Author> authors = articleRepository.findArticleByTitle(article.getTitle()).getAuthors();
+            for(Author author:authors){
+                long authorId = author.getPerson().getId();
+                int order = author.getOrder();
+                String authorName = author.getPerson().getName();
+                if(authorName.equals(name)){
+                    continue;
+                }
+                link.put("source",String.valueOf(authorId));
+                link.put("target",String.valueOf(articleId));
+                link.put("value",String.valueOf(order));
+                links.add(new HashMap<>(link));
+
+                Map<String,String> node = new HashMap<>();
+                node.put("id",String.valueOf(authorId));
+                node.put("name",authorName);
+                node.put("gender",author.getPerson().getGender());
+                node.put("category","3");
+                newNode.put(authorName,new HashMap<>(node));
+            }
+        }
+        nodes.addAll(newNode.values());
+        echartsVO.setLinks(links);
+        echartsVO.setNodes(nodes);
+
+        Map<String,String> category = new HashMap<>();
+        category.put("name","Co-Authors");
+        echartsVO.getCategory().add(category);
+    }
 }

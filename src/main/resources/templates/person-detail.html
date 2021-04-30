@@ -51,7 +51,8 @@
                     </div>
                     <div class="col-10 col-lg-11">
                         <h4 class="pb-3" th:text="${pDetailVO.person.name}">Edson C. Tandoc Jr.</h4>
-                        <p th:text="${pDetailVO.person.gender}">Male</p>
+                        <p><b>Gender</b></p>
+                        <p class="ml-3" th:text="${pDetailVO.person.gender}">Male</p>
                         <p class="ml-5"><b>Articles</b></p>
                         <p class="ml-3" th:text="${pDetailVO.counter}">Nil</p>
                     </div>
@@ -78,7 +79,8 @@
                                     <span class="fa fa-user-circle card-icon"></span>
                                     <div class="card-s-info ml-5">
                                         <h6 class="mb-1" th:text="${p.name}">Patrick Ferrucci</h6>
-                                        <p th:text="${p.gender}">Male</p>
+                                        <p><b>Gender</b></p>
+                                        <p class="ml-2" th:text="${p.gender}">Male</p>
                                         <p class="ml-4"><b>Articles</b></p>
                                         <p class="ml-2" th:text="${p.counter}">121</p>
                                     </div>
@@ -103,10 +105,10 @@
         const myChart = echarts.init(dom);
         const app = {};
         let option;
-        const colorTable = ['rgba(76, 142, 230, 1)', 'rgba(228, 78, 43, 1)', 'rgba(248, 181, 41, 1)'];
+        const colorTable = ['rgba(76, 142, 230, 1)', 'rgba(228, 78, 43, 1)', 'rgba(248, 181, 41, 1)','rgb(128,182,229)'];
         // myChart.showLoading();
         graph.nodes.forEach(function (node) {
-            node.symbolSize = 50;
+            node.symbolSize = 30;
         });
         graph.nodes.forEach(function (node) {
             node.category = parseInt(node.category);
@@ -115,9 +117,7 @@
             }
             node.label = {show:false};
         })
-        graph.nodes.forEach(function (node){
 
-        })
         option = {
             title: {
                 text: ' ',
@@ -155,7 +155,6 @@
                     categories: graph.category,
                     roam: true,
                     draggable: true,
-                    layoutAnimation: false,
                     label: {
                         normal: {
                             show: false,
@@ -163,8 +162,8 @@
                     },
                     force: {
                         initLayout:'force',
-                        repulsion: 300,
-                        edgeLength: 300
+                        repulsion: 500,
+                        edgeLength: [30,100]
                     },
                     edgeSymbol:['none', 'arrow'],
                     emphasis: {

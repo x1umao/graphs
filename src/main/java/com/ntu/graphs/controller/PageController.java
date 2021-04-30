@@ -71,6 +71,7 @@ public class PageController {
         //query graph
         List<Article> articles = articleService.getArticlesByAuthorName(personDetailVO, name);
         EchartsVO echartsVO = graphUtil.articlesToEcharts(articles);
+        articleService.setCoauthorsToEchartsVO(articles,echartsVO);//增加其他作者节点。
         personDetailVO.setEchartsVO(echartsVO);
 
         //query related persons
