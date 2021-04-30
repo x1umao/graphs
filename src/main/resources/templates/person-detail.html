@@ -283,7 +283,7 @@
                     .style("left", d3.event.pageX + 5 + "px")
                     .style("top", d3.event.pageY - 80 + "px")
                     .style("display", "inline-block")
-                    .html(`number of articles: ${d.travellers}`);
+                    .html(`Number of articles: ${d.travellers}`);
             })
             .on("mouseout", function (d) {
                 tooltip.style("display", "none");
@@ -301,9 +301,9 @@
     function fillSearchBar(){
         const searchBar = document.querySelector("#search");
         const referer = document.referrer;
-        const keyword = referer.slice(referer.indexOf('keyword=')+8);
-        if(keyword!==undefined){
-            searchBar.value = keyword;
+        const index = referer.indexOf('keyword=');
+        if(index!==-1){
+            searchBar.value = referer.slice(index+8);
         }
     }
 

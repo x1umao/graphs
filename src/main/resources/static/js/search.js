@@ -2,7 +2,7 @@ let searchObj = document.querySelector("#search");
 let suggest = document.querySelector("#suggest");
 
 searchObj.onkeyup = function(){
-    let text = searchObj.value;
+    let text = searchObj.value.toLowerCase();
     //长度为0时不请求
     if(text.length<=1){
         suggest.style.display = 'none';
