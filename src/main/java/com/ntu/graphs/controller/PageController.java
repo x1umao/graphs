@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -75,7 +76,7 @@ public class PageController {
         personDetailVO.setEchartsVO(echartsVO);
 
         //query related persons
-        Set<PersonListVO> relatedPerson = personService.getRelatedPersonByArticle(articles, name);
+        Set<PersonListVO> relatedPerson = new HashSet<>(personService.getRelatedPersonByArticle(articles, name));
         personDetailVO.setRelatedPerson(relatedPerson);
 
         model.addAttribute("pDetailVO", personDetailVO);

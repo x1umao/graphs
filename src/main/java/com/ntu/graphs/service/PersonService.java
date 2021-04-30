@@ -46,19 +46,19 @@ public class PersonService {
     }
 
 
-    public Set<PersonListVO> getRelatedPersonByArticle(List<Article> articles, String name) {
-        Set<PersonListVO> personListVOs = new HashSet<>();
+    public Collection<PersonListVO> getRelatedPersonByArticle(List<Article> articles, String name) {
+        Map<String,PersonListVO> personListVOs = new HashMap<>();
         for(Article article: articles){
             List<Person> persons = personRepository.findRelatedPersonsByTitle(article.getTitle(),name);
             for(Person person:persons){
                 int counter = personRepository.countArticleByPersonName(person.getName());
-                personListVOs.add(new PersonListVO(person.getName(),person.getGender(),counter));
+                personListVOs.put(person.getName(),new PersonListVO(person.getName(),person.getGender(),counter));
                 if(personListVOs.size()==5){
-                    return personListVOs;
+                    return personListVOs.values();
                 }
             }
         }
-        return personListVOs;
+        return personListVOs.values();
     }
 
     public List<PersonListVO> loadMoreListing(int page, String keyword) {
