@@ -124,7 +124,7 @@
         const colorTable = ['rgba(76, 142, 230, 1)', 'rgba(228, 78, 43, 1)', 'rgba(248, 181, 41, 1)'];
         // myChart.showLoading();
         graph.nodes.forEach(function (node) {
-            node.symbolSize = 50;
+            node.symbolSize = 30;
         });
         graph.nodes.forEach(function (node) {
             node.category = parseInt(node.category);
@@ -175,7 +175,7 @@
                     },
                     force: {
                         repulsion: 300,
-                        edgeLength: 300
+                        edgeLength: 60
                     },
                     emphasis: {
                         focus: 'adjacency',
