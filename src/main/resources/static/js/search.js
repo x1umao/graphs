@@ -2,7 +2,7 @@ let searchObj = document.querySelector("#search");
 let suggest = document.querySelector("#suggest");
 
 searchObj.onkeyup = function(){
-    let text = searchObj.value.toLowerCase();
+    let text = searchObj.value;
     //长度为0时不请求
     if(text.length<=1){
         suggest.style.display = 'none';
@@ -35,8 +35,8 @@ searchObj.onkeyup = function(){
             }
             alert0.style.display = 'none';
         }
+        suggest.style.display = 'block';
     });
-    suggest.style.display = 'block';
 }
 function toList(obj){
     const table = {

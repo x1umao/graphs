@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 
@@ -47,10 +48,10 @@ public class PageController {
                           Model model) {
         //0:person, 1:article, 2:journal
         if (category == 0) {
-            personService.getListingModel(model,keyword);
+            personService.getListingModel(model,keyword.toLowerCase());
             model.addAttribute("category", 0);
         } else if (category == 1) {
-            articleService.getListingModel(model,keyword);
+            articleService.getListingModel(model,keyword.toLowerCase());
             model.addAttribute("category", 1);
         } else if (category == 2) {
             journalService.getListingModel(model);

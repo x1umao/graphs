@@ -195,6 +195,16 @@
         }
     }
 
+    fillSearchBar();
+
+    function fillSearchBar(){
+        const searchBar = document.querySelector("#search");
+        const referer = document.referrer;
+        const index = referer.indexOf('keyword=');
+        if(index!==-1){
+            searchBar.value = referer.slice(index+8);
+        }
+    }
 </script>
 </body>
 </html>

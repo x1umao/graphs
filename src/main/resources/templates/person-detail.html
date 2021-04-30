@@ -126,7 +126,7 @@
                 left: 'right'
             },
             tooltip: {
-                position:'inside'
+                position:'bottom'
             }
             ,toolbox: {
                 show: true,
@@ -134,7 +134,6 @@
                 top: '90%',
                 right: '5%',
                 feature: {
-
                     saveAsImage: {
                         show: true,
                         icon: 'image://images/download.png'
@@ -249,6 +248,15 @@
         data.forEach(function (d) {
             d.travellers = +d.travellers;
         });
+
+        data.sort((o1,o2)=>{
+            if(o1['period']>o2['period']){
+                return 1;
+            }else {
+                return -1;
+            }
+        });
+        console.log(data);
 
         // Scale the range of the data in the domains
         x.domain(data.map(function (d) {

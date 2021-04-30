@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -45,6 +46,7 @@ public class DataController {
     @GetMapping("/search")
     public Map<String, Long> search(@RequestParam("keyword") String keyword) {
         Map<String, Long> result = new LinkedHashMap<>();
+        keyword = keyword.toLowerCase();
         result.put("person",personService.countNodeByKeyword(keyword));
         result.put("article",articleService.countNodeByKeyword(keyword));
         result.put("journal",journalService.countNodeByKeyword(keyword));
