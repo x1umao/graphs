@@ -108,7 +108,7 @@
         const colorTable = ['rgba(76, 142, 230, 1)', 'rgba(228, 78, 43, 1)', 'rgba(248, 181, 41, 1)','rgb(128,182,229)'];
         // myChart.showLoading();
         graph.nodes.forEach(function (node) {
-            node.symbolSize = 30;
+            node.symbolSize = 20;
         });
         graph.nodes.forEach(function (node) {
             node.category = parseInt(node.category);
@@ -164,8 +164,9 @@
                         // initLayout:'force',
                         // repulsion: 500,
                         // edgeLength: [30,100]
-                        edgeLength: 60,
-                        repulsion: 300
+                        edgeLength: 55,
+                        repulsion: 150,
+                        gravity: 0.03
                     },
                     edgeSymbol:['none', 'arrow'],
                     emphasis: {
@@ -312,7 +313,7 @@
         const referer = document.referrer;
         const index = referer.indexOf('keyword=');
         if(index!==-1){
-            searchBar.value = referer.slice(index+8);
+            searchBar.value = referer.slice(index+8).replace('%20',' ');
         }
     }
 

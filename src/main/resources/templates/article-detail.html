@@ -202,7 +202,7 @@
         const referer = document.referrer;
         const index = referer.indexOf('keyword=');
         if(index!==-1){
-            searchBar.value = referer.slice(index+8);
+            searchBar.value = referer.slice(index+8).replace('%20',' ');
         }
     }
 </script>
