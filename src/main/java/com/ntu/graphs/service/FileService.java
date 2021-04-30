@@ -81,6 +81,15 @@ public class FileService {
 
     public void validate(Model model) {
 
+        int counter = parseCSV();
+        model.addAttribute("counter", counter);
+        model.addAttribute("person", personNodes.size());
+        model.addAttribute("article", articleNodes.size());
+        model.addAttribute("journal", journalNodes.size());
+
+    }
+
+    public int parseCSV(){
         String filePath = new File("").getAbsolutePath();
         String path = filePath + "\\DB\\database.csv";
 
@@ -133,11 +142,7 @@ public class FileService {
         } catch (IOException e) {
             System.out.println(e);
         }
-        model.addAttribute("counter", counter);
-        model.addAttribute("person", personNodes.size());
-        model.addAttribute("article", articleNodes.size());
-        model.addAttribute("journal", journalNodes.size());
-
+        return counter;
     }
 
     public void updateNeo4j() {

@@ -1,7 +1,9 @@
 package com.ntu.graphs;
 
+import com.ntu.graphs.controller.AdminController;
 import com.ntu.graphs.dao.ArticleRepository;
 import com.ntu.graphs.dao.PersonRepository;
+import com.ntu.graphs.service.FileService;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -13,8 +15,6 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 
-import static com.ntu.graphs.util.shellUtil.shellTestOnWin;
-
 @SpringBootApplication
 @EnableNeo4jRepositories
 public class GraphsApplication {
@@ -24,12 +24,13 @@ public class GraphsApplication {
     }
 
     @Bean
-    CommandLineRunner demo(PersonRepository personRepository, ArticleRepository articleRepository){
+    CommandLineRunner demo(PersonRepository personRepository, ArticleRepository articleRepository, FileService fileService){
         return args -> {
 
-            shellTestOnWin();
-
             personRepository.deleteAll();
+
+            fileService.parseCSV();
+            fileService.updateNeo4j();
 
         };
     }
