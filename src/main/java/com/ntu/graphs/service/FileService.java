@@ -70,7 +70,7 @@ public class FileService {
                 dest.getParentFile().mkdirs();// 新建文件夹
             }
             file.transferTo(dest);// 文件写入
-            return "Successfully Uploaded!";
+            return "success";
         } catch (IllegalStateException | IOException e) {
             e.printStackTrace();
         }

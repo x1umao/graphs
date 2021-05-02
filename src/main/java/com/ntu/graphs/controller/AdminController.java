@@ -42,12 +42,16 @@ public class AdminController {
         return "admin-dash";
     }
 
+    /**
+     * @param file
+     * @return
+     */
     @PostMapping("/upload")
     @ResponseBody
     public String upload(@RequestParam("file") MultipartFile file) {
         System.out.println(file);
         if (file.isEmpty()) {
-            return "Empty file!";
+            return "Please upload a new DB file";
         }else if (fileService.getLock()){
             return "The database is being written";
         }

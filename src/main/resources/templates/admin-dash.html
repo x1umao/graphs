@@ -59,20 +59,20 @@
                     </div>
                 </div>
             </div>
-            <h3 class="pt-5">Manage</h3>
-            <form id="upload-file-form">
-                <div class="custom-file  mt-4">
-                    <input type="file" class="custom-file-input" id="file" name="file"
-                           aria-describedby="inputGroupFileAddon04">
-                    <label class="custom-file-label" for="file">Choose file</label>
-                </div>
-            </form>
+            <h3 class="pt-5 pb-3">Manage Database</h3>
+            <p>Step 1: Download Existing DB as CSV file</p>
+            <p>Step 2: Update CSV on local machine and save as new CSV</p>
+            <p>Step 3: Upload the new CSV by clicking Upload New DB button</p>
+            <p>Step 4: Once uploaded, click next and proceed to data validation</p>
 
-            <button class="btn btn-dark mt-4" onclick="upload()">Upload Data</button>
-            <a href="/download"><button class="btn btn-secondary ml-2 mt-4">Download Sample CSV</button></a>
+            <a href="/download"><button class="btn btn-secondary mt-4">Download Existing DB</button></a>
+            <form id="upload-file-form">
+                <input type="file" id="file" name="file" hidden>
+                <label class="btn btn-dark mt-4" for="file" style="padding-top: 10px">Upload New DB</label>
+            </form>
             <p><small>Acceptable file type: CSV</small></p>
-            <a href="/admin-validate"><button class="btn btn-dark mt-4">Next</button></a>
-            <span id="upload-file-message" class="alert alert-danger ml-2 mt-4" style="display: none"></span>
+            <button class="btn btn-dark mt-4" onclick="upload()">Next</button>
+            <div id="upload-file-message" class="alert alert-danger mt-2 mb-1" style="display: none;width:260px"></div>
         </div>
     </div>
 </div>
@@ -97,7 +97,11 @@
             success: function (data) {
                 // Handle upload success
                 console.log(data);
-                $("#upload-file-message").text(data).show();
+                if(data!=='success'){
+                    $("#upload-file-message").text(data).show();
+                }else{
+                    window.location.href = 'admin-validate';
+                }
             },
             error: function () {
                 // Handle upload error

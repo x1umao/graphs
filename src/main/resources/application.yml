@@ -3,7 +3,6 @@ server:
     key-store: classpath:keystore.p12
     key-store-password: 123456
     keyStoreType: PKCS12
-    keyAlias: tomcat
   port: 443
 
 spring:
