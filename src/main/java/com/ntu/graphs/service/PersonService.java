@@ -26,15 +26,13 @@ public class PersonService {
     //per 5 persons
     public void getListingModel(Model model, String keyword) {
         List<Person> persons = personRepository.findByPage(0,keyword);
-        List<PersonListVO> personListVOSs = new ArrayList<>();
-        long totalNodes = 0;
+        List<PersonListVO> personListVOs = new ArrayList<>();
         for(Person p:persons){
             PersonListVO personListVO = new PersonListVO(p.getName(),p.getGender(), personRepository.countArticleByPersonName(p.getName()));
-            personListVOSs.add(personListVO);
+            personListVOs.add(personListVO);
         }
-        model.addAttribute("persons",personListVOSs);
-        totalNodes = personRepository.countByKeyword(keyword);
-        model.addAttribute("totalNodes",totalNodes);
+        model.addAttribute("persons",personListVOs);
+        model.addAttribute("totalNodes",personRepository.countByKeyword(keyword));
         model.addAttribute("category",0);
     }
 
