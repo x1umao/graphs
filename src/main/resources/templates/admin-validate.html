@@ -58,8 +58,8 @@
 				</table>
 				<button class="btn btn-secondary mt-5" onclick="reUpload()">Replace File</button>
 				<button class="btn btn-dark ml-2 mt-5" onclick="update()">Complete Upload</button>
-				<div class="alert alert-secondary row" role="alert" id="alert" style="display:none">
-					Server starts to update Neo4j. return in &nbsp<span id="time">5</span>&nbsp seconds.
+				<div class="alert alert-secondary row  ml-2 mt-5" role="alert" id="alert" style="display:none">
+					Starting to update Neo4j. return in &nbsp<span id="time">5</span>&nbsp seconds.
 				</div>
 			</div>
 		</div>
@@ -69,15 +69,14 @@
 <script>
 	let i = 5;
 	function update(){
-
 		$.get("/update",data=>{
-			$("#alert").show();
 			console.log(data);
-			setTimeout(d=>{
-				window.location.href = "/admin-dash";
-			},5000);
-			after();
 		})
+		$("#alert").show();
+		setTimeout(d=>{
+			window.location.href = "/admin-dash";
+		},5000);
+		after();
 	}
 	function after(){
 		$("#time").empty().append(" "+i+" ");

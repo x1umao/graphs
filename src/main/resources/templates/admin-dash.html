@@ -69,10 +69,10 @@
             </form>
 
             <button class="btn btn-dark mt-4" onclick="upload()">Upload Data</button>
-            <button class="btn btn-secondary ml-2 mt-4">Download Sample CSV</button>
+            <a href="/download"><button class="btn btn-secondary ml-2 mt-4">Download Sample CSV</button></a>
             <p><small>Acceptable file type: CSV</small></p>
-            <span id="upload-file-message" class="alert alert-danger" style="display: none"></span>
-            <button class="btn btn-dark mt-4"><a href="/admin-validate">Next</a></button>
+            <a href="/admin-validate"><button class="btn btn-dark mt-4">Next</button></a>
+            <span id="upload-file-message" class="alert alert-danger ml-2 mt-4" style="display: none"></span>
         </div>
     </div>
 </div>
@@ -86,7 +86,6 @@
     }
 
     function upload() {
-
         $.ajax({
             url: "/upload",
             type: "POST",

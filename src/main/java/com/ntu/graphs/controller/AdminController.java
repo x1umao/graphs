@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 
 @Controller
 public class AdminController {
@@ -76,5 +78,12 @@ public class AdminController {
             return "no";
         }
     }
+
+    @GetMapping("/download")
+    @ResponseBody
+    public String downloadFile(HttpServletResponse response) {
+        return fileService.download(response);
+    }
+
 
 }

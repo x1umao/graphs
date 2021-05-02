@@ -14,10 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -65,7 +63,7 @@ public class FileService {
             log.info("File format is：" + suffixName);
             // 设置文件存储路径
             String filePath = new File("").getAbsolutePath();
-            String path = filePath + "\\DB\\" + fileName;
+            String path = filePath + File.separator + "DB" + File.separator + fileName;
             File dest = new File(path);
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
@@ -78,6 +76,52 @@ public class FileService {
         }
         return "Fail to upload.";
     }
+
+    public String download(HttpServletResponse response){
+        String fileName = "database.csv";// 文件名
+        if (fileName != null) {
+            //设置文件路径
+            String filePath = new File("").getAbsolutePath();
+            File file = new File(filePath + File.separator + "DB" + File.separator + fileName);
+            if (file.exists()) {
+                response.setContentType("application/force-download");// 设置强制下载不打开
+                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
+                byte[] buffer = new byte[1024];
+                FileInputStream fis = null;
+                BufferedInputStream bis = null;
+                try {
+                    fis = new FileInputStream(file);
+                    bis = new BufferedInputStream(fis);
+                    OutputStream os = response.getOutputStream();
+                    int i = bis.read(buffer);
+                    while (i != -1) {
+                        os.write(buffer, 0, i);
+                        i = bis.read(buffer);
+                    }
+                    return "success";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    if (bis != null) {
+                        try {
+                            bis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+        return "fail";
+    }
+
 
     public void validate(Model model) {
 
