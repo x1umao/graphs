@@ -135,7 +135,7 @@ public class FileService {
 
     public int parseCSV(){
         String filePath = new File("").getAbsolutePath();
-        String path = filePath + "\\DB\\database.csv";
+        String path = filePath + File.separator + "DB" + File.separator + "database.csv";
 
         // header
         // year,article,journal,authors
