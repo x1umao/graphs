@@ -359,6 +359,12 @@ a.card-hover:hover {
  font-style: normal;
 }
 
+.dropdown-item.disabled em{
+  color: #6c757d;
+  pointer-events: none;
+  background-color: transparent;
+}
+
 /** charts **/
 
 .bar-chart-axis {
