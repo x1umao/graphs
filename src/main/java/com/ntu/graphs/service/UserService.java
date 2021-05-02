@@ -18,8 +18,8 @@ public class UserService {
         long seed = System.currentTimeMillis();//以系统时间为种子
         Random random = new Random(seed);
 
-        List<String> passwords = Arrays.asList("123456", "123456", "123456", "123456", "123456");
-        List<String> usernames = Arrays.asList("admin1","admin2","admin3","admin4","admin5");
+        List<String> passwords = Arrays.asList("LCK2021WKWSCI", "123456", "123456", "123456", "123456");
+        List<String> usernames = Arrays.asList("LCK2021","admin2","admin3","admin4","admin5");
 
         for(int i = 0;i<5;i++){
             String username = usernames.get(i);
