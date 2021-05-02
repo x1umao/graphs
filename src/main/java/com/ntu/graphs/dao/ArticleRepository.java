@@ -54,4 +54,7 @@ public interface ArticleRepository extends Neo4jRepository<Article,Long> {
 
     @Query("match (a:Article) where toLower(a.title) contains $keyword return count(a)")
     long countByKeyword(String keyword);
+
+    @Query("match p=(a:Article)-[:PUBLISHED_IN]->(j:Journal{title:$title}) return p")
+    List<Article> findArticlesByJournal(String title);
 }

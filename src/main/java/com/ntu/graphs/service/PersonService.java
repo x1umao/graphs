@@ -61,13 +61,12 @@ public class PersonService {
 
     public List<PersonListVO> loadMoreListing(int page, String keyword) {
         List<Person> persons = personRepository.findByPage(page*5,keyword);
-        List<PersonListVO> personListVOSs = new ArrayList<>();
-        long totalNodes = 0;
+        List<PersonListVO> personListVOs = new ArrayList<>();
         for(Person p:persons){
             PersonListVO personListVO = new PersonListVO(p.getName(),p.getGender(), personRepository.countArticleByPersonName(p.getName()));
-            personListVOSs.add(personListVO);
+            personListVOs.add(personListVO);
         }
-        return personListVOSs;
+        return personListVOs;
     }
 
     public Long countNodeByKeyword(String keyword) {

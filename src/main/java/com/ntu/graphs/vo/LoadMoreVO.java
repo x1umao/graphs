@@ -5,6 +5,7 @@ import java.util.List;
 public class LoadMoreVO {
     private List<PersonListVO> personListVOS;
     private List<ArticleListVO> articleListVOS;
+    private List<JournalListVO> journalListVOS;
 
     public LoadMoreVO() {
     }
@@ -25,11 +26,20 @@ public class LoadMoreVO {
         this.articleListVOS = articleListVOS;
     }
 
+    public List<JournalListVO> getJournalListVOS() {
+        return journalListVOS;
+    }
+
+    public void setJournalListVOS(List<JournalListVO> journalListVOS) {
+        this.journalListVOS = journalListVOS;
+    }
+
     @Override
     public String toString() {
         return "LoadMoreVO{" +
                 "personListVOS=" + personListVOS +
                 ", articleListVOS=" + articleListVOS +
+                ", journalListVOS=" + journalListVOS +
                 '}';
     }
 }

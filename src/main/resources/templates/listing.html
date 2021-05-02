@@ -80,19 +80,21 @@
                 </a>
             </div>
 
-            <div th:if="${category} eq 2" th:id="|card${category}|">
-                <div class="card-m card-journal" style="display: none">
-                    <div class="row">
-                        <div class="col-2 col-lg-1">
-                            <span class="fa fa-book card-icon"></span>
-                        </div>
-                        <div class="col-10 col-lg-11">
-                            <h4 class="pb-3">Digital Journalism</h4>
-                            <p><b>Articles</b></p>
-                            <p class="ml-3">345</p>
+            <div th:if="${category} eq 2" th:each="j:${journals}" th:id="|card${category}|">
+                <a th:href="|journal-detail?title=${j.title}|" class="card-hover">
+                    <div class="card-m card-journal">
+                        <div class="row">
+                            <div class="col-2 col-lg-1">
+                                <span class="fa fa-book card-icon"></span>
+                            </div>
+                            <div class="col-10 col-lg-11">
+                                <h4 class="pb-3" th:text="${j.title}" id="title">Digital Journalism</h4>
+                                <p><b>Articles</b></p>
+                                <p class="ml-3" th:text="${j.counter}" id="counter">345</p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <button class="btn btn-dark my-4" id="loadMore">Load More</button>
@@ -191,6 +193,14 @@
 
                         card.find('p#firstAuthor').html(data.firstAuthor);
                         card.find('a').attr('href',`article-detail?title=${data.title}`);
+                        loadMoreBtn.before(card);
+                    })
+                }else if(category===2){
+                    d.journalListVOS.forEach(data=>{
+                        let card = $("#card2").clone();
+                        card.find('h4#title').html(data.title);
+                        card.find('p#counter').html(data.counter);
+                        card.find('a').attr('href',`journal-detail?title=${data.title}`);
                         loadMoreBtn.before(card);
                     })
                 }

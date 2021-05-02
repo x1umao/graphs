@@ -36,7 +36,7 @@ public class DataController {
         } else if (category == 1) {
             loadMoreVO.setArticleListVOS(articleService.loadMoreListing(page, keyword));
         } else if (category == 2) {
-            journalService.loadMoreListing(page);
+            loadMoreVO.setJournalListVOS(journalService.loadMoreListing(page, keyword));
         }
         System.out.println(category);
         System.out.println(page);

@@ -5,19 +5,13 @@ import com.ntu.graphs.service.ArticleService;
 import com.ntu.graphs.service.JournalService;
 import com.ntu.graphs.service.PersonService;
 import com.ntu.graphs.util.graphUtil;
-import com.ntu.graphs.vo.ArticleDetailVO;
-import com.ntu.graphs.vo.EchartsVO;
-import com.ntu.graphs.vo.PersonDetailVO;
-import com.ntu.graphs.vo.PersonListVO;
+import com.ntu.graphs.vo.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 
 @Controller
@@ -55,7 +49,7 @@ public class PageController {
             articleService.getListingModel(model,keyword.toLowerCase());
             model.addAttribute("category", 1);
         } else if (category == 2) {
-            journalService.getListingModel(model);
+            journalService.getListingModel(model,keyword.toLowerCase());
             model.addAttribute("category", 2);
         }
         model.addAttribute("keyword",keyword);
@@ -87,9 +81,29 @@ public class PageController {
     @GetMapping("/article-detail")
     public String articleDetail(@RequestParam("title") String title, Model model) {
         ArticleDetailVO articleDetailVO = articleService.getArticleDetailVO(title);
-        System.out.println(articleDetailVO);
         model.addAttribute("aDetailVO", articleDetailVO);
         return "article-detail";
+    }
+
+    @GetMapping("/journal-detail")
+    public String journalDetail(@RequestParam("title") String title, Model model){
+        JournalDetailVO journalDetailVO = new JournalDetailVO();
+
+        journalDetailVO.setTitle(title);
+        journalDetailVO.setCounter(journalService.countArticleByJournalTitle(title));
+
+        //query graph
+        List<Article> articles = articleService.getArticlesByJournalTitle(title);
+        EchartsVO echartsVO = graphUtil.articlesToEcharts(articles);
+        journalDetailVO.setEchartsVO(echartsVO);
+        System.out.println(echartsVO);
+
+        Set<PersonListVO> relatedPerson = new HashSet<>(personService.getRelatedPersonByArticle(articles, ""));
+        System.out.println(relatedPerson);
+        journalDetailVO.setRelatedPerson(relatedPerson);
+
+        model.addAttribute("jDetailVO", journalDetailVO);
+        return "journal-detail";
     }
 
 }

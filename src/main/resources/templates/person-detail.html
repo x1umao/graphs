@@ -126,9 +126,27 @@
                 left: 'right'
             },
             tooltip: {
-                position:'bottom'
-            }
-            ,toolbox: {
+                position: 'top',
+                confine:true ,
+                formatter: function (d) {
+                    console.log(d);
+                    if(d.data.category===0||d.data.category===3){
+                        let gender = 'N.A';
+                        if(d.gender!==undefined){
+                            gender=d.value;
+                        }
+                        return "<div style='display:block;word-break: break-all;word-wrap: break-word;white-space:pre-wrap'>" + d.name + "</div>"+
+                            "<br>" + "<em>Gender: <em>"+ gender;
+                    }else if(d.data.category===1){
+                        return "<div style='display:block;word-break: break-all;word-wrap: break-word;white-space:pre-wrap'>" + d.name + "</div>"+
+                            "<br>" + d.value;
+                    }else{
+                        return "<div style='display:block;word-break: break-all;word-wrap: break-word;white-space:pre-wrap'>" + d.name + "</div>";
+                    }
+                },
+                extraCssText:'width:500px;'
+            },
+            toolbox: {
                 show: true,
                 itemSize: 45,
                 top: '88%',

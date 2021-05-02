@@ -159,4 +159,8 @@ public class ArticleService {
         category.put("name","Co-Authors");
         echartsVO.getCategory().add(category);
     }
+
+    public List<Article> getArticlesByJournalTitle(String title) {
+        return articleRepository.findArticlesByJournal(title);
+    }
 }
