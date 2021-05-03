@@ -26,8 +26,8 @@ public class FileService {
 
     //store nodes
     private final Map<String, Person> personNodes;
-    private final Map<String,Article> articleNodes;
-    private final Map<String,Journal> journalNodes;
+    private final Map<String, Article> articleNodes;
+    private final Map<String, Journal> journalNodes;
 
     //store relations
     private final Map<String, String[]> wroteMap;
@@ -77,7 +77,7 @@ public class FileService {
         return "Fail to upload.";
     }
 
-    public String download(HttpServletResponse response){
+    public String download(HttpServletResponse response) {
         String fileName = "database.csv";// 文件名
         if (fileName != null) {
             //设置文件路径
@@ -133,7 +133,7 @@ public class FileService {
 
     }
 
-    public int parseCSV(){
+    public int parseCSV() {
         String filePath = new File("").getAbsolutePath();
         String path = filePath + File.separator + "DB" + File.separator + "database.csv";
 
@@ -145,40 +145,45 @@ public class FileService {
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
             for (CSVRecord record : records) {
                 counter++;
-                String year = record.get(0);
-                String articleTitle = record.get(1);
-                String journalTitle = record.get(2);
-                String[] persons = record.get(3).split(";");
-                String gender = record.get(4);
+                String[] persons = record.get(0).split(";");
+                String gender = record.get(1);
+                String status = record.get(2);
+                String articleTitle = record.get(3);
+                String year = record.get(4);
+                String journalTitle = record.get(5);
+
                 if (gender.length() == 0) {
                     gender = "N.A";
+                }
+                if (status.length() == 0) {
+                    status = "N.A";
                 }
                 //保存relation
                 wroteMap.put(articleTitle, persons);
 
                 //装载node
-                if(!articleNodes.containsKey(articleTitle)){
+                if (!articleNodes.containsKey(articleTitle)) {
                     Article article = new Article();
                     article.setYear(Integer.parseInt(year));
                     article.setTitle(articleTitle);
-                    articleNodes.put(articleTitle,article);
+                    articleNodes.put(articleTitle, article);
                 }
 
 
                 if (persons.length != 0) {
                     //update the first author
                     String firstAuthorName = persons[0];
-                    personNodes.put(firstAuthorName, new Person(firstAuthorName, gender));
+                    personNodes.put(firstAuthorName, new Person(firstAuthorName, gender, status));
 
                     for (int i = 1; i < persons.length; i++) {
-                        personNodes.put(persons[i], new Person(persons[i], "N.A"));
+                        personNodes.put(persons[i], new Person(persons[i], gender, status));
                     }
                 }
 
                 if (journalTitle.length() != 0) {
                     publishInMap.put(articleTitle, journalTitle);
-                    if(!journalNodes.containsKey(journalTitle)){
-                        journalNodes.put(journalTitle,new Journal(journalTitle));
+                    if (!journalNodes.containsKey(journalTitle)) {
+                        journalNodes.put(journalTitle, new Journal(journalTitle));
                     }
                 }
 
@@ -202,7 +207,7 @@ public class FileService {
             for (String title : wroteMap.keySet()) {
                 String[] authors = wroteMap.get(title);
                 for (int i = 0; i < authors.length; i++) {
-                    articleRepository.saveWroteRelation(title, authors[i], i+1);
+                    articleRepository.saveWroteRelation(title, authors[i], i + 1);
                 }
             }
 

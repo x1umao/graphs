@@ -11,10 +11,12 @@ public class Person {
     private Long id;
     private String name;
     private String gender;
+    private String status;
 
-    public Person(String name, String gender) {
+    public Person(String name, String gender, String status) {
         this.name = name;
         this.gender = gender;
+        this.status = status;
     }
 
 
@@ -38,12 +40,21 @@ public class Person {
         this.gender = gender;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", gender='" + gender + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
