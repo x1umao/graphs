@@ -75,10 +75,7 @@
 	}
 
 	function reUpload(){
-		$.get("/invalid",data=>{
-			console.log(data);
-			window.location.href = "/admin-dash";
-		})
+		window.location.href = "/admin-dash";
 	}
 	function logout() {
 		$.get("/logout", data => {

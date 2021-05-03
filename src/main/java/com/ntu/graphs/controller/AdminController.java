@@ -62,14 +62,9 @@ public class AdminController {
 
     @GetMapping("/admin-validate")
     public String dataValidate(Model model){
+        fileService.invalid();
         fileService.validate(model);
         return "admin-validate";
-    }
-
-    @GetMapping("/invalid")
-    @ResponseBody
-    public String invalid(){
-        return fileService.invalid();
     }
 
     @GetMapping("/update")

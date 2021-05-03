@@ -30,12 +30,17 @@
                 <div class="col-12 col-md-8 col-lg-9">
                     <div class="form-group form-search mb-0 mr-6">
                         <span class="fa fa-search form-icon"></span>
-                        <input type="text" id="search" class="form-control" placeholder="Search person, article, journal...">
+                        <input type="text" id="search" class="form-control"
+                               placeholder="Search person, article, journal...">
                         <div class="search-dropdown" id="suggest" style="display: none">
-                            <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="person"></span> results in <em>Person</em></button>
-                            <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="article"></span> results in <em>Article</em></button>
-                            <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="journal"></span> results in <em>Journal</em></button>
-                            <button type="button" class="dropdown-item disabled" id="alert0"> <i> <em>0</em> result is found</i> </button>
+                            <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"><span
+                                    id="person"></span> results in <em>Person</em></button>
+                            <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"><span
+                                    id="article"></span> results in <em>Article</em></button>
+                            <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"><span
+                                    id="journal"></span> results in <em>Journal</em></button>
+                            <button type="button" class="dropdown-item disabled" id="alert0"><i> <em>0</em> result is
+                                found</i></button>
                         </div>
                     </div>
                 </div>
@@ -105,17 +110,20 @@
         const myChart = echarts.init(dom);
         const app = {};
         let option;
-        const colorTable = ['rgba(76, 142, 230, 1)', 'rgba(228, 78, 43, 1)', 'rgba(248, 181, 41, 1)','rgb(128,182,229)'];
+        const colorTable = ['rgba(76, 142, 230, 1)',
+                            'rgba(228, 78, 43, 1)',
+                            'rgba(248, 181, 41, 1)',
+                            'rgb(128,182,229)'];
         // myChart.showLoading();
         graph.nodes.forEach(function (node) {
             node.symbolSize = 20;
         });
         graph.nodes.forEach(function (node) {
             node.category = parseInt(node.category);
-            if(node.category===1){
-                node.value = "Year: "+node.value;
+            if (node.category === 1) {
+                node.value = "Year: " + node.value;
             }
-            node.label = {show:false};
+            node.label = {show: false};
         })
 
         option = {
@@ -127,24 +135,36 @@
             },
             tooltip: {
                 position: 'top',
-                confine:true ,
+                confine: true,
                 formatter: function (d) {
                     console.log(d);
-                    if(d.data.category===0||d.data.category===3){
-                        let gender = 'N.A';
-                        if(d.gender!==undefined){
-                            gender=d.value;
+                    let terms = d.name.split(' ');
+                    console.log(terms);
+                    let result = '';
+                    let len = 0;
+                    for (let i = 0; i < terms.length; i++) {
+                        if(len+terms[i].length+1>65){
+                            result += '<br>';
+                            len = 0;
                         }
-                        return "<div style='display:block;word-break: break-all;word-wrap: break-word;white-space:pre-wrap'>" + d.name + "</div>"+
-                            "<br>" + "<em>Gender: <em>"+ gender;
-                    }else if(d.data.category===1){
-                        return "<div style='display:block;word-break: break-all;word-wrap: break-word;white-space:pre-wrap'>" + d.name + "</div>"+
-                            "<br>" + d.value;
-                    }else{
+                        result += terms[i]+' ';
+                        len += terms[i].length+1;
+                    }
+                    if (d.data.category === 0 || d.data.category === 3) {
+                        let gender = 'N.A';
+
+                        if (d.gender !== undefined) {
+                            gender = d.value;
+                        }
+                        return result +
+                            "<br>" + "<em>Gender: <em>" + gender;
+                    } else if (d.data.category === 1) {
+                        return result + "<br>" + d.value;
+                    } else {
                         return "<div style='display:block;word-break: break-all;word-wrap: break-word;white-space:pre-wrap'>" + d.name + "</div>";
                     }
                 },
-                extraCssText:'width:500px;'
+                extraCssText: 'width:500px;'
             },
             toolbox: {
                 show: true,
@@ -186,7 +206,7 @@
                         repulsion: 150,
                         gravity: 0.03
                     },
-                    edgeSymbol:['none', 'arrow'],
+                    edgeSymbol: ['none', 'arrow'],
                     emphasis: {
                         focus: 'adjacency',
                         lineStyle: {
@@ -255,7 +275,7 @@
                 if (temp.get(d.value) === undefined) {
                     temp.set(d.value, 1);
                 } else {
-                    temp.set(d.value, temp.get(d.value)+1);
+                    temp.set(d.value, temp.get(d.value) + 1);
                 }
             }
         })
@@ -269,10 +289,10 @@
             d.travellers = +d.travellers;
         });
 
-        data.sort((o1,o2)=>{
-            if(o1['period']>o2['period']){
+        data.sort((o1, o2) => {
+            if (o1['period'] > o2['period']) {
                 return 1;
-            }else {
+            } else {
                 return -1;
             }
         });
@@ -326,12 +346,12 @@
 
     }
 
-    function fillSearchBar(){
+    function fillSearchBar() {
         const searchBar = document.querySelector("#search");
         const referer = document.referrer;
         const index = referer.indexOf('keyword=');
-        if(index!==-1){
-            searchBar.value = referer.slice(index+8).replace('%20',' ');
+        if (index !== -1) {
+            searchBar.value = referer.slice(index + 8).replace('%20', ' ');
         }
     }
 
