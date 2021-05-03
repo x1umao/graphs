@@ -4,6 +4,9 @@ server:
     key-store-password: 123456
     keyStoreType: PKCS12
   port: 443
+  tomcat:
+    relaxed-path-chars: ['[',']','{','}','|']
+    relaxed-query-chars: ['[',']','{','}','|']
 
 spring:
   neo4j:
