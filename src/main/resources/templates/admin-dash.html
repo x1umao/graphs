@@ -69,6 +69,7 @@
             <form id="upload-file-form">
                 <input type="file" id="file" name="file" hidden>
                 <label class="btn btn-dark mt-4" for="file" style="padding-top: 10px">Upload New DB</label>
+                <p><small id="file-chosen">No file chosen</small></p>
             </form>
             <p><small>Acceptable file type: CSV</small></p>
             <button class="btn btn-dark mt-4" onclick="upload()">Next</button>
@@ -110,5 +111,16 @@
             }
         });
     }
+
+    function renderFileName(){
+        const file = document.getElementById('file');
+
+        const fileChosen = document.getElementById('file-chosen');
+
+        file.addEventListener('change', function(){
+            fileChosen.textContent = this.files[0].name;
+        })
+    }
+    renderFileName();
 </script>
 </html>
