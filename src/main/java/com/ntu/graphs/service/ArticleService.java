@@ -140,13 +140,15 @@ public class ArticleService {
                 }
                 link.put("source",String.valueOf(authorId));
                 link.put("target",String.valueOf(articleId));
-                link.put("value",String.valueOf(order));
+                link.put("order",String.valueOf(order));
+                link.put("type","WROTE");
                 links.add(new HashMap<>(link));
 
                 Map<String,String> node = new HashMap<>();
                 node.put("id",String.valueOf(authorId));
                 node.put("name",authorName);
                 node.put("gender",author.getPerson().getGender());
+                node.put("status",author.getPerson().getStatus());
                 node.put("category","3");
                 newNode.put(authorName,new HashMap<>(node));
             }

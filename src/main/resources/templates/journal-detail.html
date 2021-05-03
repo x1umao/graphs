@@ -124,24 +124,59 @@
             },
             tooltip: {
                 position: 'top',
-                confine:true ,
+                confine: true,
                 formatter: function (d) {
-                    console.log(d);
-                    if(d.data.category===0||d.data.category===3){
-                        let gender = 'N.A';
-                        if(d.gender!==undefined){
-                            gender=d.value;
+                    if(d.dataType==='node'){
+                        let terms = d.name.split(' ');
+                        let result = '';
+                        let len = 0;
+                        for (let i = 0; i < terms.length; i++) {
+                            if(result.indexOf('<br>')===-1){
+                                if(len+terms[i].length+1>37){
+                                    result += '<br>';
+                                    len = 0;
+                                }
+                            }else{
+                                if(len+terms[i].length+1>43){
+                                    result += '<br>';
+                                    len = 0;
+                                }
+                            }
+                            result += terms[i]+' ';
+                            len += terms[i].length+1;
                         }
-                        return "<div style='display:block;word-break: break-all;word-wrap: break-word;white-space:pre-wrap'>" + d.name + "</div>"+
-                            "<br>" + "<em>Gender: <em>"+ gender;
-                    }else if(d.data.category===1){
-                        return "<div style='display:block;word-break: break-all;word-wrap: break-word;white-space:pre-wrap'>" + d.name + "</div>"+
-                            "<br>" + d.value;
-                    }else{
-                        return "<div style='display:block;word-break: break-all;word-wrap: break-word;white-space:pre-wrap'>" + d.name + "</div>";
+                        console.log(d);
+                        if (d.data.category === 0 || d.data.category === 3) {
+                            return `<p><b>Name:&nbsp</b> ${result}</p><br>
+                                <p><b>Gender:&nbsp</b>${d.data.gender}</p><br>
+                                <p><b>Status:&nbsp</b>${d.data.gender}</p>`
+                        } else if (d.data.category === 1) {
+                            let year = d.data.year!==undefined?d.data.year:'N.A';
+                            return `<p><b>Title:&nbsp</b>${result}</p><br>
+                                <p><b>Year:&nbsp</b>${year}</p>`;
+                        } else if (d.data.categories===2){
+                            return `<p><b>Title:&nbsp</b>${result}</p>`;
+                        }
+                    }else if(d.dataType==='edge'){
+                        let source = nodeMap[d.data.source];
+                        let target = nodeMap[d.data.target];
+                        source = source.length>17?source.slice(0,17)+'...':source;
+                        target = target.length>17?target.slice(0,17)+'...':source;
+                        const order = d.data.order;
+                        const tooltip = `<p>${source}<b>&nbsp→&nbsp</b>${target}</p><br>
+                                         <p><b>Type:&nbsp</b></p>${d.data.type}`;
+                        if(d.data.type==='WROTE'){
+                            return tooltip+`<br><p><b>Order:&nbsp</b>${order}</p>`
+                        }else{
+                            return tooltip;
+                        }
                     }
                 },
-                extraCssText:'width:500px;'
+                extraCssText: 'width:350px;',
+                textStyle:{
+                    fontFamily : 'poppins',
+                    fontSize: 14
+                }
             },
             toolbox: {
                 show: true,

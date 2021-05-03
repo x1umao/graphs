@@ -21,7 +21,7 @@ public class graphUtil {
             if(!nodesMap.containsKey(articleId)){
                 node.put("id",String.valueOf(article.getId()));
                 node.put("name",article.getTitle());
-                node.put("value",String.valueOf(article.getYear()));
+                node.put("year",String.valueOf(article.getYear()));
                 node.put("category","1");
                 nodesMap.put(article.getId(),new LinkedHashMap<>(node));
                 node.clear();
@@ -37,9 +37,10 @@ public class graphUtil {
                     nodesMap.put(journalId,new LinkedHashMap<>(node));
                     node.clear();
                 }
-                //保存PUBLICAN_IN关系
+                //保存PUBLISHED_IN关系
                 link.put("source",String.valueOf(articleId));
                 link.put("target",String.valueOf(journalId));
+                link.put("type","PUBLISHED_IN");
                 linksMap.put(articleId*10+journalId,new LinkedHashMap<>(link));
                 link.clear();
             }
@@ -60,6 +61,8 @@ public class graphUtil {
                 //添加wrote relation
                 link.put("source",String.valueOf(id));
                 link.put("target",String.valueOf(articleId));
+                link.put("order",String.valueOf(author.getOrder()));
+                link.put("type","WROTE");
                 linksMap.put(id*10+articleId,new LinkedHashMap<>(link));
                 link.clear();
             }
