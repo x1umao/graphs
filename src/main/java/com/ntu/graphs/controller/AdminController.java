@@ -39,6 +39,7 @@ public class AdminController {
         model.addAttribute("person", personService.countNodes());
         model.addAttribute("article", articleService.countNodes());
         model.addAttribute("journal", journalService.countNodes());
+        model.addAttribute("lock",fileService.getLock());
         return "admin-dash";
     }
 
@@ -69,12 +70,12 @@ public class AdminController {
 
     @GetMapping("/update")
     @ResponseBody
-    public String updateNeo4j(){
+    public void updateNeo4j(){
+        System.out.println("update");
         if(fileService.lock()){
-            fileService.updateNeo4j();
-            return "ok";
-        }else{
-            return "no";
+            new Thread(()->{
+                fileService.updateNeo4j();
+            }).start();
         }
     }
 

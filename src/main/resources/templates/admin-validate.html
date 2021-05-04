@@ -58,20 +58,18 @@
 				</table>
 				<button class="btn btn-secondary mt-5" onclick="reUpload()">Back</button>
 				<button class="btn btn-dark ml-2 mt-5" onclick="update()">Confirm Upload</button>
-				<div class="alert alert-secondary mt-3" role="alert" id="alert" style="display: none"></div>
 			</div>
 		</div>
 	</div>
 </div>
 </body>
 <script>
-	let i = 5;
-	const updating = 'Updating database...Please stay on this page, you will be auto redirected to dashboard once the update is complete.';
+	// let i = 5;
+	// const updating = 'Updating database...Please stay on this page, you will be auto redirected to dashboard once the update is complete.';
 	function update(){
-		$("#alert").text(updating).show();
-		$.get("/update",data=>{
+		$.get("/update",d=>{
 			window.location.href = "/admin-dash";
-		})
+		});
 	}
 
 	function reUpload(){
