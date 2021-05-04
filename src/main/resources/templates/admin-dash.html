@@ -60,67 +60,89 @@
                 </div>
             </div>
             <h3 class="pt-5 pb-3">Manage Database</h3>
-            <p>Step 1: Download Existing DB as CSV file</p>
-            <p>Step 2: Update CSV on local machine and save as new CSV</p>
-            <p>Step 3: Upload the new CSV by clicking Upload New DB button</p>
-            <p>Step 4: Once uploaded, click next and proceed to data validation</p>
+            <div id="step">
+                <p style="font-weight: bold">Step 1: Download Existing DB as CSV file</p>
+                <p>Step 2: Update the CSV on local machine, save and name the new CSV as database.csv, the upload by clicking Upload New DB button
+                </p>
+                <p>Step 3: Once uploaded, click next and proceed to data validation</p>
+            </div>
 
-            <a href="/download"><button class="btn btn-secondary mt-4">Download Existing DB</button></a>
-            <form id="upload-file-form">
+
+            <button class="btn btn-secondary mt-4" id="download">Download Existing DB</button>
+            <form id="upload-file-form" style="display: none">
                 <input type="file" id="file" name="file" hidden>
                 <label class="btn btn-dark mt-4" for="file" style="padding-top: 10px">Upload New DB</label>
-                <p><small id="file-chosen">No file chosen</small></p>
+                <p><small>Acceptable file type: CSV</small></p>
             </form>
-            <p><small>Acceptable file type: CSV</small></p>
-            <button class="btn btn-dark mt-4" onclick="upload()">Next</button>
-            <div id="upload-file-message" class="alert alert-danger mt-2 mb-1" style="display: none;width:260px"></div>
+            <div id="final" style="display: none">
+                <a href="/admin-validate">
+                    <button class="btn btn-dark mt-4">Next</button>
+                </a>
+                <p><small id="file-chosen"></small></p>
+            </div>
+
+            <div id="upload-file-message" class="alert alert-danger mt-2 mb-1" style="display: none;width:350px"></div>
         </div>
     </div>
 </div>
 </div>
 </body>
 <script>
+    let step = document.querySelector('#step');
     function logout() {
         $.get("/logout", data => {
             window.location.href = "/login";
         })
     }
 
-    function upload() {
-        $.ajax({
-            url: "/upload",
-            type: "POST",
-            data: new FormData($("#upload-file-form")[0]),
-            enctype: 'multipart/form-data',
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: function (data) {
-                // Handle upload success
-                console.log(data);
-                if(data!=='success'){
-                    $("#upload-file-message").text(data).show();
-                }else{
-                    window.location.href = 'admin-validate';
-                }
-            },
-            error: function () {
-                // Handle upload error
-                $("#upload-file-message").text(
-                    "File not uploaded (perhaps it's too much big)");
-            }
-        });
-    }
-
-    function renderFileName(){
-        const file = document.getElementById('file');
-
-        const fileChosen = document.getElementById('file-chosen');
-
-        file.addEventListener('change', function(){
-            fileChosen.textContent = this.files[0].name;
+    function download() {
+        const download = document.querySelector('#download');
+        download.addEventListener('click', function () {
+            window.location.href = '/download';
+            download.style.display = 'none';
+            document.querySelector('#upload-file-form').style.display = 'block';
+            step.children[0].removeAttribute('style');
+            step.children[1].setAttribute('style','font-weight:bold');
         })
     }
-    renderFileName();
+    function upload() {
+        const file = document.getElementById('file');
+        const fileChosen = document.getElementById('file-chosen');
+
+        file.addEventListener('change', function () {
+            $.ajax({
+                url: "/upload",
+                type: "POST",
+                data: new FormData($("#upload-file-form")[0]),
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (data) {
+                    // Handle upload success
+                    console.log(data);
+                    if (data !== 'success') {
+                        $("#upload-file-message").text(data).show();
+                    } else {
+                        document.querySelector('#upload-file-form').style.display = 'none';
+                        document.querySelector('#final').style.display = 'block';
+                        fileChosen.textContent = file.files[0].name + ' has been uploaded';
+                        step.children[1].removeAttribute('style');
+                        step.children[2].setAttribute('style','font-weight:bold');
+                        $("#upload-file-message").hide();
+                    }
+                },
+                error: function () {
+                    // Handle upload error
+                    $("#upload-file-message").text(
+                        "File not uploaded (perhaps it's too much big)").show();
+                }
+            });
+        })
+    }
+
+
+    download();
+    upload();
 </script>
 </html>
