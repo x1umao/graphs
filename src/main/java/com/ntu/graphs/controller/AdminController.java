@@ -50,7 +50,6 @@ public class AdminController {
     @PostMapping("/upload")
     @ResponseBody
     public String upload(@RequestParam("file") MultipartFile file) {
-        System.out.println(file);
         if (file.isEmpty()) {
             return "Please upload a new DB file";
         }else if (fileService.getLock()){
@@ -71,7 +70,6 @@ public class AdminController {
     @GetMapping("/update")
     @ResponseBody
     public void updateNeo4j(){
-        System.out.println("update");
         if(fileService.lock()){
             new Thread(()->{
                 fileService.updateNeo4j();

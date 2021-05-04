@@ -29,7 +29,6 @@ public class ArticleService {
 
         List<Article> articles = articleRepository.findByPage(0, keyword);
         List<ArticleListVO> articleListVOs = new ArrayList<>();
-        System.out.println(articles.size());
 
         for (Article article : articles) {
             String title = article.getTitle();
@@ -38,7 +37,8 @@ public class ArticleService {
             articleListVOs.add(new ArticleListVO(title, article.getYear(), journalTitle, name));
         }
         model.addAttribute("articles", articleListVOs);
-        long totalNodes = articleRepository.countByKeyword(keyword);;
+        long totalNodes = articleRepository.countByKeyword(keyword);
+        ;
         model.addAttribute("totalNodes", totalNodes);
     }
 
@@ -56,8 +56,6 @@ public class ArticleService {
         List<Article> articles = new ArrayList<>();
         articles.add(article);
         EchartsVO echartsVO = graphUtil.articlesToEcharts(articles);
-        System.out.println(echartsVO);
-
 
         //抽取related persons
         List<Author> authors = new ArrayList<>(article.getAuthors());
@@ -67,7 +65,7 @@ public class ArticleService {
         });
         //only keep firstAuthor in article object
         Set<Author> firstAuthor = new HashSet<>();
-        if(authors.size()!=0){
+        if (authors.size() != 0) {
             firstAuthor.add(authors.get(0));
         }
 
@@ -76,7 +74,7 @@ public class ArticleService {
 
         List<PersonListVO> relatedPersons = new ArrayList<>();
         //仅放前五人进入
-        for (int i = 0; i < authors.size()&&i<5; i++) {
+        for (int i = 0; i < authors.size() && i < 5; i++) {
             Person person = authors.get(i).getPerson();
             PersonListVO personListVO = new PersonListVO(person.getName(),
                     person.getGender(),
@@ -86,7 +84,7 @@ public class ArticleService {
 
         //count how many articles in journal
         int jCounter = 0;
-        if(article.getJournal()!=null){
+        if (article.getJournal() != null) {
             jCounter = articleRepository.countArticlesByJournalTitle(article.getJournal().getTitle());
         }
 
@@ -101,7 +99,7 @@ public class ArticleService {
     }
 
     public List<ArticleListVO> loadMoreListing(int page, String keyword) {
-        List<Article> articles = articleRepository.findByPage(page*5,keyword);
+        List<Article> articles = articleRepository.findByPage(page * 5, keyword);
         List<ArticleListVO> articleListVOs = new ArrayList<>();
         for (Article article : articles) {
             String title = article.getTitle();
@@ -117,48 +115,47 @@ public class ArticleService {
     }
 
     public void setCoauthorsToEchartsVO(List<Article> articles, EchartsVO echartsVO) {
-        Map<String,String> link = new HashMap<>();
-        Map<String,Map<String,String>> newNode = new HashMap<>();
+        Map<String, String> link = new HashMap<>();
+        Map<String, Map<String, String>> newNode = new HashMap<>();
         List<Map<String, String>> links = echartsVO.getLinks();
         List<Map<String, String>> nodes = echartsVO.getNodes();
-        for(Article article:articles){
-            System.out.println(article);
+        for (Article article : articles) {
             String title = article.getTitle();
             String name = "";
             long articleId = article.getId();
-            for(Author author: article.getAuthors()){
+            for (Author author : article.getAuthors()) {
                 name = author.getPerson().getName();
             }
 
             Set<Author> authors = articleRepository.findArticleByTitle(article.getTitle()).getAuthors();
-            for(Author author:authors){
+            for (Author author : authors) {
                 long authorId = author.getPerson().getId();
                 int order = author.getOrder();
                 String authorName = author.getPerson().getName();
-                if(authorName.equals(name)){
+                if (authorName.equals(name)) {
                     continue;
                 }
-                link.put("source",String.valueOf(authorId));
-                link.put("target",String.valueOf(articleId));
-                link.put("order",String.valueOf(order));
-                link.put("type","WROTE");
+                link.put("source", String.valueOf(authorId));
+                link.put("target", String.valueOf(articleId));
+                link.put("order", String.valueOf(order));
+                link.put("type", "WROTE");
                 links.add(new HashMap<>(link));
 
-                Map<String,String> node = new HashMap<>();
-                node.put("id",String.valueOf(authorId));
-                node.put("name",authorName);
-                node.put("gender",author.getPerson().getGender());
-                node.put("status",author.getPerson().getStatus());
-                node.put("category","3");
-                newNode.put(authorName,new HashMap<>(node));
+                Map<String, String> node = new HashMap<>();
+                node.put("id", String.valueOf(authorId));
+                node.put("name", authorName);
+                node.put("gender", author.getPerson().getGender());
+                node.put("status", author.getPerson().getStatus());
+                node.put("category", "3");
+                newNode.put(authorName, new HashMap<>(node));
             }
         }
         nodes.addAll(newNode.values());
         echartsVO.setLinks(links);
         echartsVO.setNodes(nodes);
 
-        Map<String,String> category = new HashMap<>();
-        category.put("name","Co-Authors");
+        Map<String, String> category = new HashMap<>();
+        category.put("name", "Co-Authors");
         echartsVO.getCategory().add(category);
     }
 

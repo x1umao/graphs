@@ -38,8 +38,6 @@ public class DataController {
         } else if (category == 2) {
             loadMoreVO.setJournalListVOS(journalService.loadMoreListing(page, keyword));
         }
-        System.out.println(category);
-        System.out.println(page);
         return loadMoreVO;
     }
 

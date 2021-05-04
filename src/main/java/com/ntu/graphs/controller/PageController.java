@@ -39,20 +39,20 @@ public class PageController {
 
     @GetMapping("/listing")
     public String listing(@RequestParam("category") int category,
-                          @RequestParam(value="keyword",defaultValue="") String keyword,
+                          @RequestParam(value = "keyword", defaultValue = "") String keyword,
                           Model model) {
         //0:person, 1:article, 2:journal
         if (category == 0) {
-            personService.getListingModel(model,keyword.toLowerCase());
+            personService.getListingModel(model, keyword.toLowerCase());
             model.addAttribute("category", 0);
         } else if (category == 1) {
-            articleService.getListingModel(model,keyword.toLowerCase());
+            articleService.getListingModel(model, keyword.toLowerCase());
             model.addAttribute("category", 1);
         } else if (category == 2) {
-            journalService.getListingModel(model,keyword.toLowerCase());
+            journalService.getListingModel(model, keyword.toLowerCase());
             model.addAttribute("category", 2);
         }
-        model.addAttribute("keyword",keyword);
+        model.addAttribute("keyword", keyword);
         return "listing";
     }
 
@@ -66,7 +66,7 @@ public class PageController {
         //query graph
         List<Article> articles = articleService.getArticlesByAuthorName(personDetailVO, name);
         EchartsVO echartsVO = graphUtil.articlesToEcharts(articles);
-        articleService.setCoauthorsToEchartsVO(articles,echartsVO);//增加其他作者节点。
+        articleService.setCoauthorsToEchartsVO(articles, echartsVO);//增加其他作者节点。
         personDetailVO.setEchartsVO(echartsVO);
 
         //query related persons
@@ -86,7 +86,7 @@ public class PageController {
     }
 
     @GetMapping("/journal-detail")
-    public String journalDetail(@RequestParam("title") String title, Model model){
+    public String journalDetail(@RequestParam("title") String title, Model model) {
         JournalDetailVO journalDetailVO = new JournalDetailVO();
 
         journalDetailVO.setTitle(title);
@@ -96,10 +96,8 @@ public class PageController {
         List<Article> articles = articleService.getArticlesByJournalTitle(title);
         EchartsVO echartsVO = graphUtil.articlesToEcharts(articles);
         journalDetailVO.setEchartsVO(echartsVO);
-        System.out.println(echartsVO);
 
         Set<PersonListVO> relatedPerson = new HashSet<>(personService.getRelatedPersonByArticle(articles, ""));
-        System.out.println(relatedPerson);
         journalDetailVO.setRelatedPerson(relatedPerson);
 
         model.addAttribute("jDetailVO", journalDetailVO);
