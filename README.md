@@ -23,3 +23,7 @@ keytool -genkey -alias tomcat  -storetype PKCS12 -keyalg RSA -keysize 2048  -key
 ### 更新策略:
 * 上传文件后，对服务进行加锁，更新完数据库释放锁后才可以再次更新数据库。
 
+后台启动springboot的命令
+```shell
+nohup java -jar graphs-0.0.1-SNAPSHOT.jar > test.log 2>&1 &
+```

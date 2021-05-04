@@ -24,7 +24,10 @@ public interface JournalRepository extends Neo4jRepository<Journal,Long> {
     List<Journal> findByPage(@Param("page") int page, @Param("keyword") String keyword);
 
     @Query("MATCH p=()-[r:PUBLISHED_IN]->(:Journal{title: $title}) RETURN count(p)")
-    Long countArticleByJournalTitle(String title);
+    Long countArticleByJournalTitle(@Param("title") String title);
 
     Journal findJournalByTitle(String title);
+
+    @Query("match (:Article{title:$title})-[:PUBLISHED_IN]->(j:Journal) return j")
+    Journal findJournalByArticleTitle(@Param("title") String title);
 }

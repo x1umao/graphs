@@ -166,8 +166,8 @@
                             let year = d.data.year!==undefined?d.data.year:'N.A';
                             return `<p><b>Title:&nbsp</b>${result}</p><br>
                                 <p><b>Year:&nbsp</b>${year}</p>`;
-                        } else if (d.data.categories===2){
-                            return `<p><b>Title:&nbsp</b>${result}</p>`;
+                        } else if (d.data.category===2){
+                            return `<p><b>Title:&nbsp</b>${d.data.name}</p>`;
                         }
                     }else if(d.dataType==='edge'){
                         let source = nodeMap[d.data.source];

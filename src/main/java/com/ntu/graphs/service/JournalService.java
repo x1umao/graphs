@@ -66,4 +66,11 @@ public class JournalService {
     public Long countArticleByJournalTitle(String title) {
         return journalRepository.countArticleByJournalTitle(title);
     }
+
+    public void findJournalByArticle(List<Article> articles) {
+        for (Article article:articles) {
+            Journal journal = journalRepository.findJournalByArticleTitle(article.getTitle());
+            article.setJournal(journal);
+        }
+    }
 }
