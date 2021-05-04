@@ -30,7 +30,9 @@ public class GraphsApplication {
             personRepository.deleteAll();
 
             fileService.parseCSV();
-            fileService.updateNeo4j();
+            if(fileService.lock()){
+                fileService.updateNeo4j();
+            }
 
         };
     }
