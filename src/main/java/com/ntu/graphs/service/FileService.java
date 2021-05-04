@@ -142,49 +142,53 @@ public class FileService {
         try (Reader in = new FileReader(path)) {
             Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
             for (CSVRecord record : records) {
-                counter++;
-                String[] persons = record.get(0).split(";");
-                String gender = record.get(1);
-                String status = record.get(2);
-                String articleTitle = record.get(3);
-                String year = record.get(4);
-                String journalTitle = record.get(5);
+                try {
+                    counter++;
+                    String[] persons = record.get(0).split(";");
+                    String gender = record.get(1);
+                    String status = record.get(2);
+                    String articleTitle = record.get(3);
+                    String year = record.get(4);
+                    String journalTitle = record.get(5);
 
-                if (gender.length() == 0) {
-                    gender = "N.A";
-                }
-                if (status.length() == 0) {
-                    status = "N.A";
-                }
-                //保存relation
-                wroteMap.put(articleTitle, persons);
-
-                //装载node
-                if (!articleNodes.containsKey(articleTitle)) {
-                    Article article = new Article();
-                    article.setYear(Integer.parseInt(year));
-                    article.setTitle(articleTitle);
-                    articleNodes.put(articleTitle, article);
-                }
-
-
-                if (persons.length != 0) {
-                    //update the first author
-                    String firstAuthorName = persons[0];
-                    personNodes.put(firstAuthorName, new Person(firstAuthorName, gender, status));
-
-                    for (int i = 1; i < persons.length; i++) {
-                        personNodes.put(persons[i], new Person(persons[i], gender, status));
+                    if (gender.length() == 0) {
+                        gender = "N.A";
                     }
-                }
-
-                if (journalTitle.length() != 0) {
-                    publishInMap.put(articleTitle, journalTitle);
-                    if (!journalNodes.containsKey(journalTitle)) {
-                        journalNodes.put(journalTitle, new Journal(journalTitle));
+                    if (status.length() == 0) {
+                        status = "N.A";
                     }
-                }
+                    //保存relation
+                    wroteMap.put(articleTitle, persons);
 
+                    //装载node
+                    if (!articleNodes.containsKey(articleTitle)) {
+                        Article article = new Article();
+                        article.setYear(Integer.parseInt(year));
+                        article.setTitle(articleTitle);
+                        articleNodes.put(articleTitle, article);
+                    }
+
+
+                    if (persons.length != 0) {
+                        //update the first author
+                        String firstAuthorName = persons[0];
+                        personNodes.put(firstAuthorName, new Person(firstAuthorName, gender, status));
+
+                        for (int i = 1; i < persons.length; i++) {
+                            personNodes.put(persons[i], new Person(persons[i], gender, status));
+                        }
+                    }
+
+                    if (journalTitle.length() != 0) {
+                        publishInMap.put(articleTitle, journalTitle);
+                        if (!journalNodes.containsKey(journalTitle)) {
+                            journalNodes.put(journalTitle, new Journal(journalTitle));
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    continue;
+                }
             }
         } catch (IOException e) {
             System.out.println(e);
@@ -215,8 +219,6 @@ public class FileService {
         } finally {
             lock = false;
         }
-
-
     }
 
     public boolean lock() {
