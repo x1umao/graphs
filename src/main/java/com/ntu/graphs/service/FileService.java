@@ -77,7 +77,7 @@ public class FileService {
         return "Fail to upload.";
     }
 
-    public String download(HttpServletResponse response) {
+    public void download(HttpServletResponse response) {
         String fileName = "database.csv";// 文件名
         if (fileName != null) {
             //设置文件路径
@@ -98,7 +98,6 @@ public class FileService {
                         os.write(buffer, 0, i);
                         i = bis.read(buffer);
                     }
-                    return "success";
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -119,7 +118,6 @@ public class FileService {
                 }
             }
         }
-        return "fail";
     }
 
 

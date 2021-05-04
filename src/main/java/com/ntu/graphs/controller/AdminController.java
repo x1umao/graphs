@@ -80,9 +80,7 @@ public class AdminController {
 
     @GetMapping("/download")
     @ResponseBody
-    public String downloadFile(HttpServletResponse response) {
-        return fileService.download(response);
+    public void downloadFile(HttpServletResponse response) {
+        fileService.download(response);
     }
-
-
 }
