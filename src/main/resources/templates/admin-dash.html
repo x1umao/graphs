@@ -74,6 +74,14 @@
                     <label class="btn btn-dark mt-4" for="file" style="padding-top: 10px">Upload New DB</label>
                     <p><small>Acceptable file type: CSV</small></p>
                 </form>
+                <div class="mt-4" style="display: none" id="spinner">
+                    <button class="btn btn-dark" type="button">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                              style="color: white;"></span>
+                        <span class="ml-3" style="color: white;top: 50%">Uploading...</span>
+                    </button>
+                </div>
+
                 <div id="final" style="display: none">
                     <a href="/admin-validate">
                         <button class="btn btn-dark mt-4">Next</button>
@@ -83,14 +91,16 @@
                 <div id="upload-file-message" class="alert alert-danger mt-2 mb-1"
                      style="display: none;width:350px"></div>
             </div>
-            <div class="alert alert-secondary mt-3" role="alert" th:if="${lock}">Updating database... Please try again in a few minutes</div>
+            <div class="alert alert-secondary mt-3" role="alert" th:if="${lock}">
+                Updating database... It usually take few minutes depending on the database size, please refresh to check latest status.
+            </div>
         </div>
     </div>
-</div>
 </div>
 </body>
 <script>
     let step = document.querySelector('#step');
+
     function logout() {
         $.get("/logout", data => {
             window.location.href = "/login";
@@ -111,8 +121,9 @@
     function upload() {
         const file = document.getElementById('file');
         const fileChosen = document.getElementById('file-chosen');
-
         file.addEventListener('change', function () {
+            document.querySelector('#upload-file-form').style.display = 'none';
+            document.querySelector('#spinner').setAttribute('style', 'display:block');
             $.ajax({
                 url: "/upload",
                 type: "POST",
@@ -123,11 +134,10 @@
                 cache: false,
                 success: function (data) {
                     // Handle upload success
-                    console.log(data);
                     if (data !== 'success') {
                         $("#upload-file-message").text(data).show();
                     } else {
-                        document.querySelector('#upload-file-form').style.display = 'none';
+                        document.querySelector('#spinner').setAttribute('style', 'display:none');
                         document.querySelector('#final').style.display = 'block';
                         fileChosen.textContent = file.files[0].name + ' has been uploaded';
                         step.children[1].removeAttribute('style');
