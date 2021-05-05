@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="images/favicon-small.png" sizes="16x16">
     <link rel="icon" type="image/png" href="images/favicon-large.png" sizes="32x32">
     <title>Graphs DB</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -112,155 +111,11 @@
 </div>
 
 <script src="js/search.js"></script>
-<script src="js/column-chart-person.js"></script>
+<script src="js/renderGraph.js"></script>
 <script th:inline="javascript">
-    window.onload = function () {
-
-        let nodeMap = {};
-
-        const graph = /*[[${aDetailVO.echartsVO}]]*/ "";
-        console.log(graph);
-        const dom = document.getElementById("graphContainer");
-        const myChart = echarts.init(dom);
-        const app = {};
-        let option;
-        const colorTable = ['rgba(76, 142, 230, 1)', 'rgba(228, 78, 43, 1)', 'rgba(248, 181, 41, 1)'];
-        // myChart.showLoading();
-        graph.nodes.forEach(function (node) {
-            node.symbolSize = 30;
-        });
-        graph.nodes.forEach(function (node) {
-            node.category = parseInt(node.category);
-            node.label = {show: false};
-            // construct id,name
-            nodeMap[node.id] = node.name;
-        })
-        option = {
-            title: {
-                text: ' ',
-                subtext: 'Default layout',
-                top: 'bottom',
-                left: 'right'
-            },
-            tooltip: {
-                position: 'top',
-                confine: true,
-                formatter: function (d) {
-                    if(d.dataType==='node'){
-                        let terms = d.name.split(' ');
-                        let result = '';
-                        let len = 0;
-                        for (let i = 0; i < terms.length; i++) {
-                            if(result.indexOf('<br>')===-1){
-                                if(len+terms[i].length+1>37){
-                                    result += '<br>';
-                                    len = 0;
-                                }
-                            }else{
-                                if(len+terms[i].length+1>43){
-                                    result += '<br>';
-                                    len = 0;
-                                }
-                            }
-                            result += terms[i]+' ';
-                            len += terms[i].length+1;
-                        }
-                        console.log(d);
-                        if (d.data.category === 0 || d.data.category === 3) {
-                            return `<p><b>Name:&nbsp</b> ${result}</p><br>
-                                <p><b>Gender:&nbsp</b>${d.data.gender}</p><br>
-                                <p><b>Status:&nbsp</b>${d.data.gender}</p>`
-                        } else if (d.data.category === 1) {
-                            let year = d.data.year!==undefined?d.data.year:'N.A';
-                            return `<p><b>Title:&nbsp</b>${result}</p><br>
-                                <p><b>Year:&nbsp</b>${year}</p>`;
-                        } else if (d.data.category===2){
-                            return `<p><b>Title:&nbsp</b>${result}</p>`;
-                        }
-                    }else if(d.dataType==='edge'){
-                        let source = nodeMap[d.data.source];
-                        let target = nodeMap[d.data.target];
-                        source = source.length>17?source.slice(0,17)+'...':source;
-                        target = target.length>17?target.slice(0,17)+'...':source;
-                        const order = d.data.order;
-                        const tooltip = `<p>${source}<b>&nbsp→&nbsp</b>${target}</p><br>
-                                         <p><b>Type:&nbsp</b></p>${d.data.type}`;
-                        if(d.data.type==='WROTE'){
-                            return tooltip+`<br><p><b>Order:&nbsp</b>${order}</p>`
-                        }else{
-                            return tooltip;
-                        }
-                    }
-                },
-                extraCssText: 'width:350px;',
-                textStyle:{
-                    fontFamily : 'poppins',
-                    fontSize: 14
-                }
-            },
-            toolbox: {
-                show: true,
-                itemSize: 45,
-                top: '88%',
-                right: '3%',
-                feature: {
-
-                    saveAsImage: {
-                        show: true,
-                        icon: 'image://images/download.png'
-                    }
-                }
-            },
-            legend: [{
-                // selectedMode: 'single',
-                data: graph.category.map(function (a) {
-                    return a.name;
-                })
-            }],
-            series: [
-                {
-                    type: 'graph',
-                    layout: 'force',
-                    data: graph.nodes,
-                    links: graph.links,
-                    categories: graph.category,
-                    roam: true,
-                    draggable: true,
-                    label: {
-                        show: true
-                    },
-                    force: {
-                        repulsion: 300,
-                        edgeLength: 60
-                    },
-                    emphasis: {
-                        focus: 'adjacency',
-                        lineStyle: {
-                            width: 10
-                        }
-                    }
-                }
-            ],
-            color: colorTable
-        };
-
-        myChart.setOption(option);
-
-        if (option && typeof option === 'object') {
-            myChart.setOption(option);
-        }
-    }
-
+    const graph = /*[[${aDetailVO.echartsVO}]]*/ "";
+    renderGraph();
     fillSearchBar();
-
-    function fillSearchBar() {
-        const searchBar = document.querySelector("#search");
-        const referer = document.referrer;
-        const index = referer.indexOf('keyword=');
-        if (index !== -1) {
-            searchBar.value = decodeURI(referer.slice(index + 8));
-        }
-    }
 </script>
 </body>
 </html>

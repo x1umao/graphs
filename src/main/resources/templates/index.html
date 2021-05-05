@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="images/favicon-small.png" sizes="16x16">
     <link rel="icon" type="image/png" href="images/favicon-large.png" sizes="32x32">
     <title>Graphs DB</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -29,10 +28,14 @@
                 <span class="fa fa-search form-icon"></span>
                 <input type="text" id="search" class="form-control" placeholder="Search person, article, journal...">
                 <div class="search-dropdown" id="suggest" style="display: none">
-                    <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="person"></span> results in <em>Person</em></button>
-                    <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="article"></span> results in <em>Article</em></button>
-                    <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"> <span id="journal"></span> results in <em>Journal</em></button>
-                    <button type="button" class="dropdown-item disabled" id="alert0"> <i> <em>0 result is found</em> </i> </button>
+                    <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"><span
+                            id="person"></span> results in <em>Person</em></button>
+                    <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"><span
+                            id="article"></span> results in <em>Article</em></button>
+                    <button type="button" class="dropdown-item suggestButton" onclick="toList(this)"><span
+                            id="journal"></span> results in <em>Journal</em></button>
+                    <button type="button" class="dropdown-item disabled" id="alert0"><i> <em>0 result is found</em> </i>
+                    </button>
                 </div>
             </div>
             <h2>Explore</h2>

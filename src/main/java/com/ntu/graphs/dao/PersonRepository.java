@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PersonRepository extends Neo4jRepository<Person,Long> {
+public interface PersonRepository extends Neo4jRepository<Person, Long> {
 
     Person findByName(String name);
 
@@ -28,6 +28,6 @@ public interface PersonRepository extends Neo4jRepository<Person,Long> {
     int countArticleByPersonName(@Param("name") String name);
 
     @Query("match (p:Person)-[w:WROTE]->(:Article{title:$title}) where not p.name = $name return p limit 5")
-    List<Person> findRelatedPersonsByTitle(@Param("title") String title,@Param("name") String name);
+    List<Person> findRelatedPersonsByTitle(@Param("title") String title, @Param("name") String name);
 
 }

@@ -55,8 +55,8 @@ public class Article {
         this.authors = authors;
     }
 
-    public void addAuthor(Author author){
-        if(authors==null){
+    public void addAuthor(Author author) {
+        if (authors == null) {
             authors = new HashSet<>();
         }
         authors.add(author);

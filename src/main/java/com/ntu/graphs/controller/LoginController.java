@@ -6,7 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class LoginController {
@@ -25,7 +26,7 @@ public class LoginController {
 
     @GetMapping("/logout")
     @ResponseBody
-    public Map<String,Integer> logout(HttpServletRequest request){
+    public Map<String, Integer> logout(HttpServletRequest request) {
 
         Map<String, Integer> resData = new HashMap<>();
         resData.put("msg", userService.logout(request));
@@ -36,13 +37,13 @@ public class LoginController {
     @ResponseBody
     public Map<String, Integer> login(@ModelAttribute User user, HttpServletRequest request) {
         Map<String, Integer> resData = new HashMap<>();
-        resData.put("msg", userService.verifyUser(user,request));
+        resData.put("msg", userService.verifyUser(user, request));
         return resData;
     }
 
     @GetMapping("/key")
     @ResponseBody
-    public String getKey(@RequestParam("username") String username){
+    public String getKey(@RequestParam("username") String username) {
         return userService.getKey(username);
     }
 }

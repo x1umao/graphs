@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -53,6 +55,7 @@ public class PageController {
             model.addAttribute("category", 2);
         }
         model.addAttribute("keyword", keyword);
+        System.out.println(model);
         return "listing";
     }
 

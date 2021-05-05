@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="images/favicon-small.png" sizes="16x16">
     <link rel="icon" type="image/png" href="images/favicon-large.png" sizes="32x32">
     <title>Graphs DB</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -22,7 +21,7 @@
             <div class="row pt-0 pb-2 pt-md-4">
                 <div class="col-12 col-md-4 col-lg-3 my-auto">
                     <div class="logo py-5 py-md-0 ">
-                        <a href="index.html">
+                        <a href="/index">
                             <img src="images/graphs-logo.svg" class="mx-auto mx-md-0">
                         </a>
                     </div>
@@ -70,7 +69,7 @@
                 <div class="col-12 col-md-6 col-lg-12">
                     <div class="card-m">
                         <h5>Articles</h5>
-                        <div id="column-chart-journal" class="pt-4"></div>
+                        <div id="barContainer" class="pt-4"></div>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-12">
@@ -96,275 +95,13 @@
     </div>
 </div>
 <script src="js/search.js"></script>
+<script src="js/barchart.js"></script>
+<script src="js/renderGraph.js"></script>
 <script th:inline="javascript">
-    let nodeMap = {};
     const graph = /*[[${jDetailVO.echartsVO}]]*/ "";
-    console.log(graph);
-    const dom = document.getElementById("graphContainer");
-    const myChart = echarts.init(dom);
-    const app = {};
-    let option;
-    const colorTable = ['rgba(76, 142, 230, 1)', 'rgba(228, 78, 43, 1)', 'rgba(248, 181, 41, 1)'];
-    // myChart.showLoading();
-    graph.nodes.forEach(function (node) {
-        node.symbolSize = 30;
-    });
-    graph.nodes.forEach(function (node) {
-        node.category = parseInt(node.category);
-        node.label = {show: false};
-        // construct id,name
-        nodeMap[node.id] = node.name;
-    })
-    option = {
-        title: {
-            text: ' ',
-            subtext: 'Default layout',
-            top: 'bottom',
-            left: 'right'
-        },
-        tooltip: {
-            position: 'top',
-            confine: true,
-            formatter: function (d) {
-                if (d.dataType === 'node') {
-                    let terms = d.name.split(' ');
-                    let result = '';
-                    let len = 0;
-                    for (let i = 0; i < terms.length; i++) {
-                        if (result.indexOf('<br>') === -1) {
-                            if (len + terms[i].length + 1 > 37) {
-                                result += '<br>';
-                                len = 0;
-                            }
-                        } else {
-                            if (len + terms[i].length + 1 > 43) {
-                                result += '<br>';
-                                len = 0;
-                            }
-                        }
-                        result += terms[i] + ' ';
-                        len += terms[i].length + 1;
-                    }
-                    console.log(d);
-                    if (d.data.category === 0 || d.data.category === 3) {
-                        return `<p><b>Name:&nbsp</b> ${result}</p><br>
-                                <p><b>Gender:&nbsp</b>${d.data.gender}</p><br>
-                                <p><b>Status:&nbsp</b>${d.data.gender}</p>`
-                    } else if (d.data.category === 1) {
-                        let year = d.data.year !== undefined ? d.data.year : 'N.A';
-                        return `<p><b>Title:&nbsp</b>${result}</p><br>
-                                <p><b>Year:&nbsp</b>${year}</p>`;
-                    } else if (d.data.category === 2) {
-                        return `<p><b>Title:&nbsp</b>${result}</p>`;
-                    }
-                } else if (d.dataType === 'edge') {
-                    let source = nodeMap[d.data.source];
-                    let target = nodeMap[d.data.target];
-                    source = source.length > 17 ? source.slice(0, 17) + '...' : source;
-                    target = target.length > 17 ? target.slice(0, 17) + '...' : source;
-                    const order = d.data.order;
-                    const tooltip = `<p>${source}<b>&nbsp→&nbsp</b>${target}</p><br>
-                                         <p><b>Type:&nbsp</b></p>${d.data.type}`;
-                    if (d.data.type === 'WROTE') {
-                        return tooltip + `<br><p><b>Order:&nbsp</b>${order}</p>`
-                    } else {
-                        return tooltip;
-                    }
-                }
-            },
-            extraCssText: 'width:350px;',
-            textStyle: {
-                fontFamily: 'poppins',
-                fontSize: 14
-            }
-        },
-        toolbox: {
-            show: true,
-            itemSize: 45,
-            top: '88%',
-            right: '3%',
-            feature: {
-
-                saveAsImage: {
-                    show: true,
-                    icon: 'image://images/download.png'
-                }
-            }
-        },
-        legend: [{
-            // selectedMode: 'single',
-            data: graph.category.map(function (a) {
-                return a.name;
-            })
-        }],
-        series: [
-            {
-                type: 'graph',
-                layout: 'force',
-                data: graph.nodes,
-                links: graph.links,
-                categories: graph.category,
-                roam: true,
-                draggable: true,
-                label: {
-                    show: true
-                },
-                force: {
-                    repulsion: 300,
-                    edgeLength: 60
-                },
-                emphasis: {
-                    focus: 'adjacency',
-                    lineStyle: {
-                        width: 10
-                    }
-                },
-                edgeSymbol: ['none', 'arrow']
-            }
-        ],
-        color: colorTable
-    };
-
-    myChart.setOption(option);
-
-    if (option && typeof option === 'object') {
-        myChart.setOption(option);
-    }
-
-    renderBar();
-
-    function renderBar() {
-        // set the dimensions and margins of the graph
-        var margin = {top: 0, right: 0, bottom: 30, left: 0},
-            width = 800 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
-
-        // set the ranges
-        var x = d3.scaleBand()
-            .range([0, width])
-            .padding(0.4);
-        var y = d3.scaleLinear()
-            .range([height, 0]);
-
-        var tooltip = d3.select("body").append("div");
-
-        // append the svg object to the divivsion
-        var svg = d3.select("#column-chart-journal").append("svg")
-            .attr('preserveAspectRatio', 'xMinYMin meet')
-            .attr(
-                'viewBox',
-                '0 0 ' +
-                (width + margin.left + margin.right) +
-                ' ' +
-                (height + margin.top + margin.bottom)
-            )
-            .append("g")
-            .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
-
-        const bgGradient = svg
-            .append('linearGradient')
-            .attr('id', 'bg-gradient')
-            .attr('gradientTransform', 'rotate(90)');
-        bgGradient
-            .append('stop')
-            .attr('stop-color', '#fd1d1d')
-            .attr('offset', '0%');
-        bgGradient
-            .append('stop')
-            .attr('stop-color', '#9c0063')
-            .attr('offset', '100%');
-
-        let data = [];
-        let temp = new Map();
-        graph.nodes.forEach(d => {
-            if (d.category === 1 && d.year !== '0') {
-                if (temp.get(d.year) === undefined) {
-                    temp.set(d.year, 1);
-                } else {
-                    temp.set(d.year, temp.get(d.year) + 1);
-                }
-            }
-        })
-        temp.forEach(function (value, key) {
-            data.push({travellers: value, period: key});
-        });
-
-        // format the data
-        data.forEach(function (d) {
-            d.travellers = +d.travellers;
-        });
-
-        data.sort((o1, o2) => {
-            if (o1['period'] > o2['period']) {
-                return 1;
-            } else {
-                return -1;
-            }
-        });
-        //only show the latest ten years
-        data = data.slice(0,10);
-
-        // Scale the range of the data in the domains
-        x.domain(data.map(function (d) {
-            return d.period;
-        }));
-        y.domain([0, d3.max(data, function (d) {
-            return d.travellers;
-        })]);
-
-        var formatComma = d3.format(",");
-
-        // append the rectangles for the bar chart
-        svg.selectAll(".bar")
-            .data(data)
-            .enter().append("rect")
-            .attr("fill", "rgba(76, 142, 230, 1)")
-            .attr("rx", 25)
-            .attr("x", function (d) {
-                return x(d.period);
-            })
-            .attr("width", x.bandwidth())
-            .attr("y", function (d) {
-                return y(d.travellers);
-            })
-            .attr("height", function (d) {
-                return height - y(d.travellers);
-            })
-            //add tooltip
-            .on("mousemove", function (d) {
-                tooltip
-                    .attr("class", "bar-tooltip")
-                    .style("left", d3.event.pageX + 5 + "px")
-                    .style("top", d3.event.pageY - 80 + "px")
-                    .style("display", "inline-block")
-                    .html(`Number of articles: ${d.travellers}`);
-            })
-            .on("mouseout", function (d) {
-                tooltip.style("display", "none");
-            });
-
-        // add the x Axis
-        svg.append("g")
-            .attr("class", "bar-chart-axis")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x))
-            .call(g => g.select(".domain").remove());
-
-    }
-
+    renderGraph();
+    renderBar('barContainer');
     fillSearchBar();
-
-    function fillSearchBar() {
-        const searchBar = document.querySelector("#search");
-        const referer = document.referrer;
-        const index = referer.indexOf('keyword=');
-        if (index !== -1) {
-            searchBar.value = decodeURI(referer.slice(index + 8));
-        }
-    }
-
-
 </script>
 </body>
 </html>

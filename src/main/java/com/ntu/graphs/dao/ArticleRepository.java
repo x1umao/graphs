@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @Repository
-public interface ArticleRepository extends Neo4jRepository<Article,Long> {
+public interface ArticleRepository extends Neo4jRepository<Article, Long> {
     @Query("MATCH (n) OPTIONAL MATCH (n)-[r]-() DELETE n,r")
     void deleteAll();
 
@@ -20,7 +20,7 @@ public interface ArticleRepository extends Neo4jRepository<Article,Long> {
 
     //query for list
     @Query("match (a:Article) where toLower(a.title) contains $keyword return a skip $page limit 5")
-    List<Article> findByPage(@Param("page") int page,@Param("keyword") String keyword);
+    List<Article> findByPage(@Param("page") int page, @Param("keyword") String keyword);
 
     @Query("match (p:Person)-[:WROTE{order:1}]->(:Article {title:$title}) return p.name")
     String findFirstAuthorByArticleName(@Param("title") String title);

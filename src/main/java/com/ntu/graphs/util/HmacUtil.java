@@ -8,7 +8,7 @@ import javax.crypto.spec.SecretKeySpec;
 public class HmacUtil {
 
     public static String encode(String message, String secret) {
-        String hash="";
+        String hash = "";
         try {
             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
             SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");

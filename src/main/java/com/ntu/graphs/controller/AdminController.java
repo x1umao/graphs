@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 
 @Controller
 public class AdminController {
@@ -33,13 +32,13 @@ public class AdminController {
     }
 
     @GetMapping("/admin-dash")
-    public String adminDash(Model model, HttpServletRequest request){
+    public String adminDash(Model model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
-        model.addAttribute("username",user.getUsername());
+        model.addAttribute("username", user.getUsername());
         model.addAttribute("person", personService.countNodes());
         model.addAttribute("article", articleService.countNodes());
         model.addAttribute("journal", journalService.countNodes());
-        model.addAttribute("lock",fileService.getLock());
+        model.addAttribute("lock", fileService.getLock());
         return "admin-dash";
     }
 
@@ -52,16 +51,15 @@ public class AdminController {
     public String upload(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             return "Please upload a new DB file";
-        }else if (fileService.getLock()){
+        } else if (fileService.getLock()) {
             return "The database is being written";
-        }
-        else{
+        } else {
             return fileService.upload(file);
         }
     }
 
     @GetMapping("/admin-validate")
-    public String dataValidate(Model model){
+    public String dataValidate(Model model) {
         fileService.invalid();
         fileService.validate(model);
         return "admin-validate";
@@ -69,9 +67,9 @@ public class AdminController {
 
     @GetMapping("/update")
     @ResponseBody
-    public void updateNeo4j(){
-        if(fileService.lock()){
-            new Thread(()->{
+    public void updateNeo4j() {
+        if (fileService.lock()) {
+            new Thread(() -> {
                 fileService.updateNeo4j();
             }).start();
         }

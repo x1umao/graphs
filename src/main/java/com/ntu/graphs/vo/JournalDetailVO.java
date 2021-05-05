@@ -1,7 +1,5 @@
 package com.ntu.graphs.vo;
 
-import com.ntu.graphs.entity.Journal;
-
 import java.util.Set;
 
 public class JournalDetailVO {

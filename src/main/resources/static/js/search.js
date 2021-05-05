@@ -38,6 +38,7 @@ searchObj.onkeyup = function(){
         suggest.style.display = 'block';
     });
 }
+
 function toList(obj){
     const table = {
         "Person" : 0,
@@ -47,4 +48,13 @@ function toList(obj){
     const category = obj.children[1].innerHTML;
     const keyword = document.querySelector("#search").value;
     window.location.href = `/listing?category=${table[category]}&keyword=${keyword}`;
+}
+
+function fillSearchBar() {
+    const searchBar = document.querySelector("#search");
+    const referer = document.referrer;
+    const index = referer.indexOf('keyword=');
+    if (index !== -1) {
+        searchBar.value = decodeURI(referer.slice(index + 8));
+    }
 }

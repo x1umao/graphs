@@ -78,6 +78,7 @@ public class ArticleService {
             Person person = authors.get(i).getPerson();
             PersonListVO personListVO = new PersonListVO(person.getName(),
                     person.getGender(),
+                    person.getStatus(),
                     articleRepository.countArticleByPersonName(person.getName()));
             relatedPersons.add(personListVO);
         }

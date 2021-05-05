@@ -7,33 +7,33 @@ import java.util.Map;
 
 public class EchartsVO {
 
-    private List<Map<String,String>> nodes;
-    private List<Map<String,String>> links;
-    private List<Map<String,String>> category;
+    private List<Map<String, String>> nodes;
+    private List<Map<String, String>> links;
+    private List<Map<String, String>> category;
 
     public EchartsVO(List<Map<String, String>> nodes, List<Map<String, String>> links) {
         this.nodes = nodes;
         this.links = links;
         //装载categories
         category = new ArrayList<>();
-        Map<String,String> temp = new HashMap<>();
-        temp.put("name","Person");
+        Map<String, String> temp = new HashMap<>();
+        temp.put("name", "Person");
         category.add(new HashMap<>(temp));
-        temp.put("name","Article");
+        temp.put("name", "Article");
         category.add(new HashMap<>(temp));
-        temp.put("name","Journal");
+        temp.put("name", "Journal");
         category.add(new HashMap<>(temp));
     }
 
     public EchartsVO() {
         //装载categories
         category = new ArrayList<>();
-        Map<String,String> temp = new HashMap<>();
-        temp.put("name","Person");
+        Map<String, String> temp = new HashMap<>();
+        temp.put("name", "Person");
         category.add(new HashMap<>(temp));
-        temp.put("name","Article");
+        temp.put("name", "Article");
         category.add(new HashMap<>(temp));
-        temp.put("name","Journal");
+        temp.put("name", "Journal");
         category.add(new HashMap<>(temp));
     }
 

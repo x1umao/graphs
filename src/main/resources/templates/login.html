@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="icon" type="image/png" href="images/favicon-small.png" sizes="16x16">
     <link rel="icon" type="image/png" href="images/favicon-large.png" sizes="32x32">
     <title>Graphs DB</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -37,33 +36,5 @@
     </form>
 </div>
 </body>
-<script>
-    function login() {
-        let password = $("#password").val();
-        let username = $("#username").val();
-        $.get(`/key?username=${username}`, key => {
-            const hash = CryptoJS.HmacSHA256(password, username+key);
-            password = CryptoJS.enc.Base64.stringify(hash);
-            $.ajax({
-                url: "/doLogin",
-                type: "POST",
-                data: {
-                    username: username,
-                    password: password
-                },
-                success: function (data) {
-                    if (data.msg) {
-                        window.location.href = "/admin-dash";
-                    } else {
-                        $("#errorMsg").show();
-                    }
-                },
-                error: function () {
-                    alert("network errors!");
-                }
-            });
-        })
-
-    }
-</script>
+<script src="js/admin.js"></script>
 </html>

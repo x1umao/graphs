@@ -1,6 +1,5 @@
 package com.ntu.graphs;
 
-import com.ntu.graphs.controller.AdminController;
 import com.ntu.graphs.dao.ArticleRepository;
 import com.ntu.graphs.dao.PersonRepository;
 import com.ntu.graphs.service.FileService;
@@ -24,13 +23,13 @@ public class GraphsApplication {
     }
 
     @Bean
-    CommandLineRunner demo(PersonRepository personRepository, ArticleRepository articleRepository, FileService fileService){
+    CommandLineRunner demo(PersonRepository personRepository, ArticleRepository articleRepository, FileService fileService) {
         return args -> {
 
             personRepository.deleteAll();
 
             fileService.parseCSV();
-            if(fileService.lock()){
+            if (fileService.lock()) {
                 fileService.updateNeo4j();
             }
 

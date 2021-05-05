@@ -3,7 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="icon" type="image/png" href="images/favicon-small.png" sizes="16x16">
 	<link rel="icon" type="image/png" href="images/favicon-large.png" sizes="32x32">
 	<title>Graphs DB</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -22,7 +21,7 @@
 					<div class="col-6 my-auto">
 						<div class="logo">
 							<a href="/">
-								<img src="images/graphs-logo.svg">	
+								<img src="images/graphs-logo.svg">
 							</a>
 						</div>
 					</div>
@@ -63,22 +62,5 @@
 	</div>
 </div>
 </body>
-<script>
-	// let i = 5;
-	// const updating = 'Updating database...Please stay on this page, you will be auto redirected to dashboard once the update is complete.';
-	function update(){
-		$.get("/update",d=>{
-			window.location.href = "/admin-dash";
-		});
-	}
-
-	function reUpload(){
-		window.location.href = "/admin-dash";
-	}
-	function logout() {
-		$.get("/logout", data => {
-			window.location.href = "/login";
-		})
-	}
-</script>
+<script src="js/admin.js"></script>
 </html>
