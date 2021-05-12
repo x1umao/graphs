@@ -107,6 +107,14 @@
             <button class="btn btn-dark my-4" id="loadMore">Load More</button>
         </div>
     </div>
+    <div class="row py-3 footer">
+        <div class="col-6">
+            <p>&#169; <span id="footer-year">2011</span> <a href="index.html">Graphs.be</a></p>
+        </div>
+        <div class="col-6 text-right">
+            <a href="about.html">About Us</a>
+        </div>
+    </div>
 </div>
 <script src="js/search.js"></script>
 <script src="js/loadMore.js"></script>
@@ -116,6 +124,7 @@
     const totalPage = /*[[${totalNodes}/5]]*/ 0;
     const keyword = /*[[${keyword}]]*/ "";
     loadMore();
+    document.querySelector("#footer-year").innerHTML = new Date().getFullYear();
 </script>
 </body>
 </html>
