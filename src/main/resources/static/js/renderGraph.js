@@ -62,8 +62,17 @@ function renderGraph() {
                 } else if (d.dataType === 'edge') {
                     let source = nodeMap[d.data.source];
                     let target = nodeMap[d.data.target];
-                    source = source.length > 17 ? source.slice(0, 17) + '...' : source;
-                    target = target.length > 17 ? target.slice(0, 17) + '...' : source;
+                    let reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+                    if(reg.test(source)){
+                        source = source.length > 7 ? source.slice(0, 7) + '...' : source;
+                    }else{
+                        source = source.length > 17 ? source.slice(0, 17) + '...' : source;
+                    }
+                    if(reg.test(target)){
+                        target = target.length > 7 ? target.slice(0, 7) + '...' : target;
+                    }else{
+                        target = target.length > 17 ? target.slice(0, 17) + '...' : target;
+                    }
                     const order = d.data.order;
                     const tooltip = `<p>${source}<b>&nbsp→&nbsp</b>${target}</p><br>
                                          <p><b>Relationship:&nbsp&nbsp</b></p>${d.data.type}`;
