@@ -47,7 +47,6 @@ function renderGraph() {
                         result += terms[i] + ' ';
                         len += terms[i].length + 1;
                     }
-                    console.log(d);
                     if (d.data.category === 0 || d.data.category === 3) {
                         return `<p><b>Name:&nbsp&nbsp</b>${result}</p><br>
                                 <p><b>Gender:&nbsp&nbsp</b>${d.data.gender}</p><br>
@@ -57,20 +56,20 @@ function renderGraph() {
                         return `<p><b>Title:&nbsp&nbsp</b>${result}</p><br>
                                 <p><b>Year:&nbsp&nbsp</b>${year}</p>`;
                     } else if (d.data.category === 2) {
-                        return `<p><b>Title:&nbsp&nbsp</b>${d.data.name}</p>`;
+                        return `<p><b>Title:&nbsp&nbsp</b>${result}</p>`;
                     }
                 } else if (d.dataType === 'edge') {
                     let source = nodeMap[d.data.source];
                     let target = nodeMap[d.data.target];
-                    let reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
-                    if(reg.test(source)){
+                    let reg = new RegExp("[\\u4E00-\\u9FFF]+", "g");
+                    if (reg.test(source)) {
                         source = source.length > 7 ? source.slice(0, 7) + '...' : source;
-                    }else{
+                    } else {
                         source = source.length > 17 ? source.slice(0, 17) + '...' : source;
                     }
-                    if(reg.test(target)){
+                    if (reg.test(target)) {
                         target = target.length > 7 ? target.slice(0, 7) + '...' : target;
-                    }else{
+                    } else {
                         target = target.length > 17 ? target.slice(0, 17) + '...' : target;
                     }
                     const order = d.data.order;
@@ -152,7 +151,7 @@ function renderGraph() {
     if (option && typeof option === 'object') {
         myChart.setOption(option);
     }
-    $(window).resize(function(){
+    $(window).resize(function () {
         myChart.resize();
     })
 }
